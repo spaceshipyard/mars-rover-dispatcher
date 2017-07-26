@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1"
+    >
+    <title>Mars Rover Dispatcher</title>
+    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" >
+    <link rel="stylesheet" type="text/css" href="index.css" >
+</head>
+<body >
+
+    <script src='/socket.io/socket.io.js'></script>
+    <script>
+
+        function onReady() {
+
+        }
+        document.addEventListener('DOMContentLoaded', onReady);
+
+        var socket = io();
+
+        socket.on('message', onMessage);
+
+        socket.on('connect', function () {
+            showApp();
+        });
+        socket.on('reconnected', function () {
+            console.log('reconnected');
+            updateStatus('reconnected');
+        });
+        socket.on('error', function (data) {
+            console.log('error', data);
+            alert(data);
+        });
+        socket.on('reconnect_error', function (data) {
+            console.log('reconnect_error', data);
+            showNetworkError();
+        });
+        socket.on('disconnect', function () {
+            console.error('disconnected');
+        });
+
+        function onMessage(msg) {
+            console.log('on message', msg);
+        }
+
+        function generateMessage() {
+            emitMsg({ data: Math.random() });
+        }
+
+        function emitMsg(data) {
+            socket.emit('message', data)
+        }
+
+        function showNetworkError() {
+            document.getElementById('view-starting-ph').style.display = 'none';
+            document.getElementById('view-normal').style.display = 'none';
+            document.getElementById('view-network-error').style.display = 'block';
+        }
+        function showApp() {
+            document.getElementById('view-starting-ph').style.display = 'none';
+            document.getElementById('view-normal').style.display = 'block';
+            document.getElementById('view-network-error').style.display = 'none';
+        }
+
+        function emitCmd(cmd) {
+            emitMsg({ cmd: cmd })
+        }
+
+        function msgForward() {
+            emitCmd('direction:FORWARD;');
+        }
+
+        function msgLeft() {
+            emitCmd('dir-left:;');
+        }
+
+        function msgRight() {
+            emitCmd('dir-right:;')
+        }
+
+        function msgBack() {
+            emitCmd('direction:BACKWARD;');
+        }
+
+        function msgRelease() {
+            emitCmd('direction:RELEASE;');
+        }
+
+        function msgSpeedMin() {
+            emitCmd('speed:100;');
+        }
+
+        function msgSpeedMedium() {
+            emitCmd('speed:150;');
+        }
+
+        function msgSpeedMax() {
+            emitCmd('speed:254;');
+        }
+    </script>
+
+    <div id="view-starting-ph">Starting...</div>
+    <div id="view-normal" class="hiddenInStartup">
+        <button onclick="generateMessage()">generate message</button>
+        <hr/>
+        <button onclick="msgForward()">forward</button>
+        <button onclick="msgLeft()">left</button>
+        <button onclick="msgRight()">right</button>
+        <button onclick="msgBack()">back</button>
+        <hr/>
+        <button onclick="msgRelease()">release</button>
+        <hr/>
+        <button onclick="msgSpeedMin()">speed min</button>
+        <button onclick="msgSpeedMedium()">speed medium</button>
+        <button onclick="msgSpeedMax()">speed max</button>
+    </div>
+    <div id="view-network-error" class="errorNotification hiddenInStartup">
+        <div class="title">Something went wrong :(</div>
+        <div class="description">Maybe, its internet connection problem.</div>
+    </div>
+</body>
+</html>
