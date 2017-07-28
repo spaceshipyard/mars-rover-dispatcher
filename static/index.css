@@ -39,3 +39,8 @@ body {
 
 .handState {
 }
+
+li {
+    display: inline;
+    font-size: x-small;
+}
