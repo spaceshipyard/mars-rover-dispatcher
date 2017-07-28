@@ -21,7 +21,10 @@
         document.addEventListener('DOMContentLoaded', onReady);
 
         var socket = io();
-        var speed = 10;
+        var leftSideSpeed = 10;
+        var rightSideSpeed = 10;
+        var speedStep = 10;
+
 
         socket.on('message', onMessage);
 
@@ -91,19 +94,47 @@
             emitCmd('direction:RELEASE;');
         }
 
-        function msgSpeedMin() {
-            emitCmd('speed:100;');
+        function redrawSpeedValue() {
+            const leftSideRangeEl = document.querySelector(".left-motors-speed-range");
+            const rightSideRangeEl = document.querySelector(".right-motors-speed-range");
+
+            leftSideRangeEl.value = leftSideSpeed;
+            rightSideRangeEl.value = rightSideSpeed;
         }
 
-        function msgSpeedMedium() {
-            emitCmd('speed:150;');
+        function updateSeed(newSpeed) {
+            leftSideSpeed = newSpeed;
+            rightSideSpeed = newSpeed;
+            emitCmd(`speed:${getCurrentSpeed()};`);
+            redrawSpeedValue();
         }
 
-        function msgSpeedMax() {
-            emitCmd('speed:254;');
+        function updateLeftSideSpeed(newSideSpeed) {
+            leftSideSpeed = newSideSpeed;
+            emitCmd(`speed-left:${leftSideSpeed};`);
+            redrawSpeedValue();
         }
 
+        function updateRightSideSpeed(newSideSpeed) {
+            rightSideSpeed = newSideSpeed;
+            emitCmd(`speed-right:${rightSideSpeed};`);
+            redrawSpeedValue();
+        }
 
+        function getCurrentSpeed() {
+            return Math.min(leftSideSpeed, rightSideSpeed);
+        }
+        function increaseSpeed(delta) {
+            updateSeed(getCurrentSpeed() + delta);
+        }
+
+        function increaseLeftSpeed(delta) {
+            updateLeftSideSpeed(leftSideSpeed + delta);
+        }
+
+        function increaseRightSpeed(delta) {
+            updateRightSideSpeed(rightSideSpeed + delta);
+        }
 
         document.addEventListener('keydown', function (event) {
             const keyName = event.key;
@@ -112,10 +143,13 @@
             switch (keyName) {
                 case 'ArrowUp': msgForward(); break;
                 case 'ArrowDown': msgBack(); break;
-                case 'ArrowLeft': msgLeft(); break;
-                case 'ArrowRight': msgRight(); break;
-                case ' ': speed+=20; emitCmd(`speed:${speed};`); break;
-                case 'Control': speed-=20; emitCmd(`speed:${speed};`); break;
+                case 'a': msgLeft(); break;
+                case 's': msgRight(); break;
+                case 'ArrowLeft': increaseLeftSpeed(-speedStep); increaseRightSpeed(speedStep); break;
+                case 'ArrowRight': increaseLeftSpeed(speedStep); increaseRightSpeed(-speedStep); break;
+                case ' ': increaseSpeed(-speedStep); break;
+                case 'Control': increaseSpeed(speedStep); break;
+
             }
         });
     </script>
@@ -131,10 +165,13 @@
         <hr/>
         <button onclick="msgRelease()">release</button>>
         <hr/>
-        <button onclick="msgSpeedMin()">speed min</button>
-        <button onclick="msgSpeedMedium()">speed medium</button>
-        <button onclick="msgSpeedMax()">speed max</button>
-
+        left side motors:
+        <br/>
+        <input class="left-motors-speed-range" type="range" min="0" max="255"/>
+        <hr/>
+        right side motors:
+        <br/>
+        <input class="right-motors-speed-range" type="range" min="0" max="255"/>
     </div>
     <div id="view-network-error" class="errorNotification hiddenInStartup">
         <div class="title">Something went wrong :(</div>
