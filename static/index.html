@@ -21,6 +21,7 @@
         document.addEventListener('DOMContentLoaded', onReady);
 
         var socket = io();
+        var speed = 10;
 
         socket.on('message', onMessage);
 
@@ -101,6 +102,22 @@
         function msgSpeedMax() {
             emitCmd('speed:254;');
         }
+
+
+
+        document.addEventListener('keydown', function (event) {
+            const keyName = event.key;
+            console.log(keyName);
+
+            switch (keyName) {
+                case 'ArrowUp': msgForward(); break;
+                case 'ArrowDown': msgBack(); break;
+                case 'ArrowLeft': msgLeft(); break;
+                case 'ArrowRight': msgRight(); break;
+                case ' ': speed+=20; emitCmd(`speed:${speed};`); break;
+                case 'Control': speed-=20; emitCmd(`speed:${speed};`); break;
+            }
+        });
     </script>
 
     <div id="view-starting-ph">Starting...</div>
@@ -112,11 +129,12 @@
         <button onclick="msgRight()">right</button>
         <button onclick="msgBack()">back</button>
         <hr/>
-        <button onclick="msgRelease()">release</button>
+        <button onclick="msgRelease()">release</button>>
         <hr/>
         <button onclick="msgSpeedMin()">speed min</button>
         <button onclick="msgSpeedMedium()">speed medium</button>
         <button onclick="msgSpeedMax()">speed max</button>
+
     </div>
     <div id="view-network-error" class="errorNotification hiddenInStartup">
         <div class="title">Something went wrong :(</div>
