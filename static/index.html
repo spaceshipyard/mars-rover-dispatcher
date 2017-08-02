@@ -70,8 +70,8 @@
             document.getElementById('view-network-error').style.display = 'none';
         }
 
-        function emitCmd(cmd) {
-            emitMsg({ cmd: cmd })
+        function emitCmd(cmd, parameters) {
+            emitMsg({ cmd: cmd, parameters: parameters || {} })
         }
 
         function msgForward() {
@@ -92,6 +92,11 @@
 
         function msgRelease() {
             emitCmd('direction:RELEASE;');
+        }
+
+        function msgVideoCall() {
+            var participants = document.querySelector(".inputCallParticipants").value;
+            emitCmd('makeCall', { video: true, participants:participants });
         }
 
         function redrawSpeedValue() {
@@ -170,7 +175,10 @@
         <button onclick="msgLeft()">left</button>
         <button onclick="msgRight()">right</button>
         <button onclick="msgBack()">back</button>
-        <button onclick="msgRelease()">release</button>>
+        <button onclick="msgRelease()">release</button>
+        <hr/>
+        <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games" />
+        <button onclick="msgVideoCall()">make a call</button>
         <hr/>
         <ul>
             <li>up - move forward</li>
