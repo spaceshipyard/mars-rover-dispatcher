@@ -7,168 +7,210 @@
             content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1"
     >
     <title>Mars Rover Dispatcher</title>
-    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" >
-    <link rel="stylesheet" type="text/css" href="index.css" >
+    <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/5.0.0/normalize.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
-<body >
+<body>
 
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='./message-emitter.js'></script>
+<script src='/socket.io/socket.io.js'></script>
+<script src='./message-emitter.js'></script>
 
-    <script>
+<script>
 
-        function onReady() {
+    function onReady() {
+
+    }
+    document.addEventListener('DOMContentLoaded', onReady);
+
+    var socket = io();
+    var leftSideSpeed = 10;
+    var rightSideSpeed = 10;
+    var speedStep = 10;
+    var emitter = getMessageEmitter(socket);
+
+    socket.on('connect', function () {
+        showApp();
+    });
+    socket.on('reconnected', function () {
+        console.log('reconnected');
+        updateStatus('reconnected');
+    });
+    socket.on('error', function (data) {
+        console.log('error', data);
+        alert(data);
+    });
+    socket.on('reconnect_error', function (data) {
+        console.log('reconnect_error', data);
+        showNetworkError();
+    });
+    socket.on('disconnect', function () {
+        console.error('disconnected');
+    });
+    socket.on('message', appendMessage);
+    socket.on('welcome', onWelcome);
+    socket.on('join', onJoin);
+
+    function appendMessage(msg) {
+        document.querySelector('.channel-messages').value += JSON.stringify(msg) + "\n\r";
+    }
+
+    function onWelcome(data) {
+        console.log(data);
+        appendMessage(data)
+    }
+
+    function requestJoin() {
+        const roomName = document.querySelector('.room-name-input').value;
+        emitter.join(roomName);
+    }
+
+    function onJoin(data) {
+        const roomName = data.roomName;
+        document.querySelector('.room-name-input').value = roomName;
+    }
+
+
+    function showNetworkError() {
+        document.getElementById('view-starting-ph').style.display = 'none';
+        document.getElementById('view-normal').style.display = 'none';
+        document.getElementById('view-network-error').style.display = 'block';
+    }
+    function showApp() {
+        document.getElementById('view-starting-ph').style.display = 'none';
+        document.getElementById('view-normal').style.display = 'block';
+        document.getElementById('view-network-error').style.display = 'none';
+    }
+
+    function msgVideoCall() {
+        var participants = document.querySelector(".inputCallParticipants").value;
+        emitter.emitCmd('makeCall', {video: true, participants: participants});
+    }
+
+    function redrawSpeedValue() {
+        const leftSideRangeEl = document.querySelector(".left-motors-speed-range");
+        const rightSideRangeEl = document.querySelector(".right-motors-speed-range");
+
+        leftSideRangeEl.value = leftSideSpeed;
+        rightSideRangeEl.value = rightSideSpeed;
+    }
+
+    function updateSeed(newSpeed) {
+        leftSideSpeed = newSpeed;
+        rightSideSpeed = newSpeed;
+        emitter.emitCmd(`speed:${getCurrentSpeed()};`);
+        redrawSpeedValue();
+    }
+
+    function updateLeftSideSpeed(newSideSpeed) {
+        leftSideSpeed = newSideSpeed;
+        emitter.emitCmd(`speed-left:${leftSideSpeed};`);
+        redrawSpeedValue();
+    }
+
+    function updateRightSideSpeed(newSideSpeed) {
+        rightSideSpeed = newSideSpeed;
+        emitter.emitCmd(`speed-right:${rightSideSpeed};`);
+        redrawSpeedValue();
+    }
+
+    function getCurrentSpeed() {
+        return Math.min(leftSideSpeed, rightSideSpeed);
+    }
+    function increaseSpeed(delta) {
+        updateSeed(getCurrentSpeed() + delta);
+    }
+
+    function increaseLeftSpeed(delta) {
+        updateLeftSideSpeed(leftSideSpeed + delta);
+    }
+
+    function increaseRightSpeed(delta) {
+        updateRightSideSpeed(rightSideSpeed + delta);
+    }
+
+    document.addEventListener('keydown', function (event) {
+        const keyName = event.key;
+        console.log(keyName);
+
+        switch (keyName) {
+            case 'ArrowUp':
+                emitter.msgForward();
+                break;
+            case 'ArrowDown':
+                emitter.msgBack();
+                break;
+            case 'a':
+                emitter.msgLeft();
+                break;
+            case 's':
+                emitter.msgRight();
+                break;
+            case 'ArrowLeft':
+                increaseLeftSpeed(-speedStep);
+                increaseRightSpeed(speedStep);
+                break;
+            case 'ArrowRight':
+                increaseLeftSpeed(speedStep);
+                increaseRightSpeed(-speedStep);
+                break;
+            case 'Shift':
+                increaseSpeed(-speedStep);
+                break;
+            case 'Control':
+                increaseSpeed(speedStep);
+                break;
 
         }
-        document.addEventListener('DOMContentLoaded', onReady);
+    });
+</script>
 
-        var socket = io();
-        var leftSideSpeed = 10;
-        var rightSideSpeed = 10;
-        var speedStep = 10;
-        var emitter = getMessageEmitter(socket);
-
-
-        socket.on('connect', function () {
-            showApp();
-        });
-        socket.on('reconnected', function () {
-            console.log('reconnected');
-            updateStatus('reconnected');
-        });
-        socket.on('error', function (data) {
-            console.log('error', data);
-            alert(data);
-        });
-        socket.on('reconnect_error', function (data) {
-            console.log('reconnect_error', data);
-            showNetworkError();
-        });
-        socket.on('disconnect', function () {
-            console.error('disconnected');
-        });
-
-
-        function showNetworkError() {
-            document.getElementById('view-starting-ph').style.display = 'none';
-            document.getElementById('view-normal').style.display = 'none';
-            document.getElementById('view-network-error').style.display = 'block';
-        }
-        function showApp() {
-            document.getElementById('view-starting-ph').style.display = 'none';
-            document.getElementById('view-normal').style.display = 'block';
-            document.getElementById('view-network-error').style.display = 'none';
-        }
-
-
-
-        function msgVideoCall() {
-            var participants = document.querySelector(".inputCallParticipants").value;
-            emitter.emitCmd('makeCall', { video: true, participants:participants });
-        }
-
-        function redrawSpeedValue() {
-            const leftSideRangeEl = document.querySelector(".left-motors-speed-range");
-            const rightSideRangeEl = document.querySelector(".right-motors-speed-range");
-
-            leftSideRangeEl.value = leftSideSpeed;
-            rightSideRangeEl.value = rightSideSpeed;
-        }
-
-        function updateSeed(newSpeed) {
-            leftSideSpeed = newSpeed;
-            rightSideSpeed = newSpeed;
-            emitter.emitCmd(`speed:${getCurrentSpeed()};`);
-            redrawSpeedValue();
-        }
-
-        function updateLeftSideSpeed(newSideSpeed) {
-            leftSideSpeed = newSideSpeed;
-            emitter.emitCmd(`speed-left:${leftSideSpeed};`);
-            redrawSpeedValue();
-        }
-
-        function updateRightSideSpeed(newSideSpeed) {
-            rightSideSpeed = newSideSpeed;
-            emitter.emitCmd(`speed-right:${rightSideSpeed};`);
-            redrawSpeedValue();
-        }
-
-        function getCurrentSpeed() {
-            return Math.min(leftSideSpeed, rightSideSpeed);
-        }
-        function increaseSpeed(delta) {
-            updateSeed(getCurrentSpeed() + delta);
-        }
-
-        function increaseLeftSpeed(delta) {
-            updateLeftSideSpeed(leftSideSpeed + delta);
-        }
-
-        function increaseRightSpeed(delta) {
-            updateRightSideSpeed(rightSideSpeed + delta);
-        }
-
-        document.addEventListener('keydown', function (event) {
-            const keyName = event.key;
-            console.log(keyName);
-
-            switch (keyName) {
-                case 'ArrowUp': emitter.msgForward(); break;
-                case 'ArrowDown': emitter.msgBack(); break;
-                case 'a': emitter.msgLeft(); break;
-                case 's': emitter.msgRight(); break;
-                case 'ArrowLeft': increaseLeftSpeed(-speedStep); increaseRightSpeed(speedStep); break;
-                case 'ArrowRight': increaseLeftSpeed(speedStep); increaseRightSpeed(-speedStep); break;
-                case 'Shift': increaseSpeed(-speedStep); break;
-                case 'Control': increaseSpeed(speedStep); break;
-
-            }
-        });
-    </script>
-
-    <div id="view-starting-ph">Starting...</div>
-        <div id="view-normal" class="hiddenInStartup">
-            <div >
+<div id="view-starting-ph">Starting...</div>
+<div id="view-normal" class="hiddenInStartup">
+    <div>
             <span>
                 left side motors:
                 <input class="left-motors-speed-range" type="range" min="0" max="255"/>
             </span>
-            <span>
+        <span>
                 right side motors:
                 <input class="right-motors-speed-range" type="range" min="0" max="255"/>
             </span>
-            <br/>
-            <hr/>
-            <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games" />
-            <button onclick="msgVideoCall()">make a call</button>
-        </div>
-
-            <button onclick="emitter.msgForward()">forward</button>
-            <button onclick="emitter.msgLeft()">left</button>
-            <button onclick="emitter.msgRight()">right</button>
-            <button onclick="emitter.msgBack()">back</button>
-            <button onclick="emitter.msgRelease()">release</button>
-            <hr/>
-
-        <div>
-            <hr/>
-            <ul>
-                <li>up - move forward</li>
-                <li>back - move backward</li>
-                <li>left - move to left</li>
-                <li>right - move to right</li>
-                <li>ctrl - increase speed</li>
-                <li>shift - decrease speed</li>
-                <li>a - rotate to left</li>
-                <li>s - rotate to right</li>
-            </ul>
-        </div>
+        <br/>
+        <hr/>
+        <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games"/>
+        <button onclick="msgVideoCall()">make a call</button>
     </div>
 
-    <div id="view-network-error" class="errorNotification hiddenInStartup">
-        <div class="title">Something went wrong :(</div>
-        <div class="description">Maybe, its internet connection problem.</div>
+    <button onclick="emitter.msgForward()">forward</button>
+    <button onclick="emitter.msgLeft()">left</button>
+    <button onclick="emitter.msgRight()">right</button>
+    <button onclick="emitter.msgBack()">back</button>
+    <button onclick="emitter.msgRelease()">release</button>
+    <hr/>
+    <div>
+        <input class="room-name-input" type="text" /> <button onclick="requestJoin()">join</button>
     </div>
+    <div>
+        <textarea class="channel-messages"></textarea>
+    </div>
+    <div>
+        <hr/>
+        <ul>
+            <li>up - move forward</li>
+            <li>back - move backward</li>
+            <li>left - move to left</li>
+            <li>right - move to right</li>
+            <li>ctrl - increase speed</li>
+            <li>shift - decrease speed</li>
+            <li>a - rotate to left</li>
+            <li>s - rotate to right</li>
+        </ul>
+    </div>
+</div>
+
+<div id="view-network-error" class="errorNotification hiddenInStartup">
+    <div class="title">Something went wrong :(</div>
+    <div class="description">Maybe, its internet connection problem.</div>
+</div>
 </body>
 </html>

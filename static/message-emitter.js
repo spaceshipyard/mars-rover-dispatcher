@@ -38,12 +38,17 @@ function getMessageEmitter(socket) {
         emitCmd('direction:RELEASE;');
     }
 
+    function join(roomName) {
+        socket.emit('join', { roomName })
+    }
+
     return {
         emitCmd: emitCmd,
         msgForward: msgForward,
         msgBack: msgBack,
         msgLeft: msgLeft,
         msgRight: msgRight,
-        msgRelease: msgRelease
+        msgRelease: msgRelease,
+        join: join
     }
 }

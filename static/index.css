@@ -44,3 +44,9 @@ li {
     display: inline;
     font-size: x-small;
 }
+
+.channel-messages {
+    font-size: 1vmax;
+    width: 100%;
+    height: 10vmax;
+}

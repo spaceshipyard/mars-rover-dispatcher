@@ -25,10 +25,12 @@ function configureStatic() {
     app.use('/', express.static('static'));
 }
 
+const defaultRoomName = 'lobby';
+
 function configureSocket() {
     io.on('connection', function(socket){
         console.log('new connection');
-        var activeTicket;
+        var currentRoomName;
 
         socket.on('disconnect', function() {
             console.log('Got disconnect!');
@@ -40,10 +42,27 @@ function configureSocket() {
 
         socket.on('message', function(data) {
             console.log('message', data);
-            io.emit('message', data);
+            io.to(currentRoomName).emit('message', data);
         });
 
-        socket.emit('welcome', function () {});
+        socket.join(defaultRoomName, function () {
+            currentRoomName = defaultRoomName;
+            const rooms = Object.keys(socket.rooms).filter(item => item != socket.id);
+            socket.emit('welcome', { currRooms: rooms } );
+        });
+
+        socket.on('join', ({roomName}) => {
+            socket.leave(currentRoomName, () => {
+                socket.emit('leave', { roomName: currentRoomName });
+                socket.join(roomName, () => {
+                    currentRoomName = roomName;
+                    socket.to(roomName).emit('memberJoined', {clientId: socket.id});
+                    socket.emit('join', {roomName});
+                });
+            })
+        });
+
+
     });
 
 }
