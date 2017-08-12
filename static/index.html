@@ -13,6 +13,8 @@
 <body >
 
     <script src='/socket.io/socket.io.js'></script>
+    <script src='./message-emitter.js'></script>
+
     <script>
 
         function onReady() {
@@ -24,9 +26,8 @@
         var leftSideSpeed = 10;
         var rightSideSpeed = 10;
         var speedStep = 10;
+        var emitter = getMessageEmitter(socket);
 
-
-        socket.on('message', onMessage);
 
         socket.on('connect', function () {
             showApp();
@@ -47,17 +48,6 @@
             console.error('disconnected');
         });
 
-        function onMessage(msg) {
-            console.log('on message', msg);
-        }
-
-        function generateMessage() {
-            emitMsg({ data: Math.random() });
-        }
-
-        function emitMsg(data) {
-            socket.emit('message', data)
-        }
 
         function showNetworkError() {
             document.getElementById('view-starting-ph').style.display = 'none';
@@ -70,33 +60,11 @@
             document.getElementById('view-network-error').style.display = 'none';
         }
 
-        function emitCmd(cmd, parameters) {
-            emitMsg({ cmd: cmd, parameters: parameters || {} })
-        }
 
-        function msgForward() {
-            emitCmd('direction:FORWARD;');
-        }
-
-        function msgLeft() {
-            emitCmd('dir-left:;');
-        }
-
-        function msgRight() {
-            emitCmd('dir-right:;')
-        }
-
-        function msgBack() {
-            emitCmd('direction:BACKWARD;');
-        }
-
-        function msgRelease() {
-            emitCmd('direction:RELEASE;');
-        }
 
         function msgVideoCall() {
             var participants = document.querySelector(".inputCallParticipants").value;
-            emitCmd('makeCall', { video: true, participants:participants });
+            emitter.emitCmd('makeCall', { video: true, participants:participants });
         }
 
         function redrawSpeedValue() {
@@ -110,19 +78,19 @@
         function updateSeed(newSpeed) {
             leftSideSpeed = newSpeed;
             rightSideSpeed = newSpeed;
-            emitCmd(`speed:${getCurrentSpeed()};`);
+            emitter.emitCmd(`speed:${getCurrentSpeed()};`);
             redrawSpeedValue();
         }
 
         function updateLeftSideSpeed(newSideSpeed) {
             leftSideSpeed = newSideSpeed;
-            emitCmd(`speed-left:${leftSideSpeed};`);
+            emitter.emitCmd(`speed-left:${leftSideSpeed};`);
             redrawSpeedValue();
         }
 
         function updateRightSideSpeed(newSideSpeed) {
             rightSideSpeed = newSideSpeed;
-            emitCmd(`speed-right:${rightSideSpeed};`);
+            emitter.emitCmd(`speed-right:${rightSideSpeed};`);
             redrawSpeedValue();
         }
 
@@ -146,10 +114,10 @@
             console.log(keyName);
 
             switch (keyName) {
-                case 'ArrowUp': msgForward(); break;
-                case 'ArrowDown': msgBack(); break;
-                case 'a': msgLeft(); break;
-                case 's': msgRight(); break;
+                case 'ArrowUp': emitter.msgForward(); break;
+                case 'ArrowDown': emitter.msgBack(); break;
+                case 'a': emitter.msgLeft(); break;
+                case 's': emitter.msgRight(); break;
                 case 'ArrowLeft': increaseLeftSpeed(-speedStep); increaseRightSpeed(speedStep); break;
                 case 'ArrowRight': increaseLeftSpeed(speedStep); increaseRightSpeed(-speedStep); break;
                 case 'Shift': increaseSpeed(-speedStep); break;
@@ -160,37 +128,44 @@
     </script>
 
     <div id="view-starting-ph">Starting...</div>
-    <div id="view-normal" class="hiddenInStartup">
-        <span>
-            left side motors:
-            <input class="left-motors-speed-range" type="range" min="0" max="255"/>
-        </span>
-        <span>
-            right side motors:
-            <input class="right-motors-speed-range" type="range" min="0" max="255"/>
-        </span>
-        <br/>
-        <hr/>
-        <button onclick="msgForward()">forward</button>
-        <button onclick="msgLeft()">left</button>
-        <button onclick="msgRight()">right</button>
-        <button onclick="msgBack()">back</button>
-        <button onclick="msgRelease()">release</button>
-        <hr/>
-        <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games" />
-        <button onclick="msgVideoCall()">make a call</button>
-        <hr/>
-        <ul>
-            <li>up - move forward</li>
-            <li>back - move backward</li>
-            <li>left - move to left</li>
-            <li>right - move to right</li>
-            <li>ctrl - increase speed</li>
-            <li>shift - decrease speed</li>
-            <li>a - rotate to left</li>
-            <li>s - rotate to right</li>
-        </ul>
+        <div id="view-normal" class="hiddenInStartup">
+            <div >
+            <span>
+                left side motors:
+                <input class="left-motors-speed-range" type="range" min="0" max="255"/>
+            </span>
+            <span>
+                right side motors:
+                <input class="right-motors-speed-range" type="range" min="0" max="255"/>
+            </span>
+            <br/>
+            <hr/>
+            <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games" />
+            <button onclick="msgVideoCall()">make a call</button>
+        </div>
+
+            <button onclick="emitter.msgForward()">forward</button>
+            <button onclick="emitter.msgLeft()">left</button>
+            <button onclick="emitter.msgRight()">right</button>
+            <button onclick="emitter.msgBack()">back</button>
+            <button onclick="emitter.msgRelease()">release</button>
+            <hr/>
+
+        <div>
+            <hr/>
+            <ul>
+                <li>up - move forward</li>
+                <li>back - move backward</li>
+                <li>left - move to left</li>
+                <li>right - move to right</li>
+                <li>ctrl - increase speed</li>
+                <li>shift - decrease speed</li>
+                <li>a - rotate to left</li>
+                <li>s - rotate to right</li>
+            </ul>
+        </div>
     </div>
+
     <div id="view-network-error" class="errorNotification hiddenInStartup">
         <div class="title">Something went wrong :(</div>
         <div class="description">Maybe, its internet connection problem.</div>
