@@ -49,6 +49,7 @@
     socket.on('message', appendMessage);
     socket.on('welcome', onWelcome);
     socket.on('join', onJoin);
+    socket.on('memberJoined', appendMessage);
 
     function appendMessage(msg) {
         document.querySelector('.channel-messages').value += JSON.stringify(msg) + "\n\r";
@@ -67,6 +68,7 @@
     function onJoin(data) {
         const roomName = data.roomName;
         document.querySelector('.room-name-input').value = roomName;
+        appendMessage(data);
     }
 
 
