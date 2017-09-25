@@ -15,27 +15,27 @@ function getMessageEmitter(socket) {
     }
 
     function emitCmd(cmd, parameters) {
-        emitMsg({ cmd: cmd, parameters: parameters || {} })
+        emitMsg({ cmd: cmd, params: parameters || {} })
     }
 
     function msgForward() {
-        emitCmd('direction:FORWARD;');
+        emitCmd('direction', { value: "FORWARD" });
     }
 
     function msgLeft() {
-        emitCmd('dir-left:;');
+        emitCmd('rotate-left', {});
     }
 
     function msgRight() {
-        emitCmd('dir-right:;')
+        emitCmd('rotate-right', {});
     }
 
     function msgBack() {
-        emitCmd('direction:BACKWARD;');
+        emitCmd('direction', { value: "BACKWARD" });
     }
 
     function msgRelease() {
-        emitCmd('direction:RELEASE;');
+        emitCmd('direction', { value: "RELEASE" });
     }
 
     function join(roomName) {
