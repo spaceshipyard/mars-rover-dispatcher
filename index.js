@@ -40,6 +40,14 @@ function configureSocket() {
             socket.emit('echo', data);
         });
 
+        socket.on('msg:acknowledge', function (data) {
+            console.log('msg:acknowledge', data);
+        });
+
+        socket.on('msg:rejected', function (data) {
+            console.log('msg:rejected', data);
+        });
+
         socket.on('message', function(data) {
             console.log('message', data);
             io.to(currentRoomName).emit('message', data);

@@ -1,6 +1,7 @@
 /**
  * Created by drykovanov on 12.08.2017.
  */
+var msgIdCounter = 0;
 
 function getMessageEmitter(socket) {
 
@@ -11,6 +12,7 @@ function getMessageEmitter(socket) {
     }
 
     function emitMsg(data) {
+        data.id = msgIdCounter++;
         socket.emit('message', data)
     }
 
