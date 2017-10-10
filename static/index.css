@@ -53,7 +53,7 @@ li {
 
 
 #controller{
-    width: 5vmax;
-    height: 5vmax;
-    font-size: 5vmax;//font-size is used to determine the size of arrows
+    width: 10vmax;
+    height: 10vmax;
+    font-size: 10vmax;
 }

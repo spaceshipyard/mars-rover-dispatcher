@@ -20,37 +20,13 @@ function getMessageEmitter(socket) {
         emitMsg({ cmd: cmd, params: parameters || {} })
     }
 
-    function msgForward() {
-        emitCmd('direction', { value: "FORWARD" });
-    }
-
-    function msgLeft() {
-        emitCmd('rotate-left', {});
-    }
-
-    function msgRight() {
-        emitCmd('rotate-right', {});
-    }
-
-    function msgBack() {
-        emitCmd('direction', { value: "BACKWARD" });
-    }
-
-    function msgRelease() {
-        emitCmd('direction', { value: "RELEASE" });
-    }
-
     function join(roomName) {
         socket.emit('join', { roomName })
     }
 
     return {
         emitCmd: emitCmd,
-        msgForward: msgForward,
-        msgBack: msgBack,
-        msgLeft: msgLeft,
-        msgRight: msgRight,
-        msgRelease: msgRelease,
+        emitMsg: emitMsg,
         join: join
     }
 }
