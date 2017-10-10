@@ -9,11 +9,16 @@
     <title>Mars Rover Dispatcher</title>
     <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/5.0.0/normalize.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="./lib/joydiv-skin-default.css">
+    <style>
+
+    </style>
 </head>
 <body>
 
 <script src='/socket.io/socket.io.js'></script>
 <script src='./message-emitter.js'></script>
+<script src="./lib/joydiv.js"></script>
 
 <script>
 
@@ -168,6 +173,29 @@
 
 <div id="view-starting-ph">Starting...</div>
 <div id="view-normal" class="hiddenInStartup">
+
+
+    <div id='controller' class="joydiv-controller">
+        <div class="joydiv-up"></div>
+        <div class="joydiv-left"></div>
+        <div class="joydiv-right"></div>
+        <div class="joydiv-down"></div>
+        <div class="joydiv-trackpad">
+            <div class="joydiv-tracker"></div>
+        </div>
+    </div>
+    <input type="text" id="direction">
+
+    <script type="text/javascript">
+        var element = document.getElementById('controller');
+        var joydiv = new JoydivModule.Joydiv({'element':element});
+        element.addEventListener('joydiv-changed',function(e){
+            const radians = joydiv.getOneDirection().angle;
+            document.getElementById('direction').value = ( (radians) * 180 / Math.PI);
+
+        });
+    </script>
+
     <div>
             <span>
                 left side motors:
