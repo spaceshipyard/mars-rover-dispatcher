@@ -12,12 +12,6 @@ body {
     padding: 30px;
 }
 
-.activeTicket {
-}
-
-.yourTicket {
-}
-
 .handUpInfo {
     text-align: center;
     font-stretch: ultra-expanded;
@@ -37,8 +31,6 @@ body {
     display: none;
 }
 
-.handState {
-}
 
 li {
     display: inline;
@@ -52,8 +44,21 @@ li {
 }
 
 
-#controller{
+.controller {
     width: 10vmax;
     height: 10vmax;
     font-size: 10vmax;
+}
+
+.panel {
+    display: inline-block;
+}
+
+.half-font {
+    font-size: 3vmax;
+}
+
+.channel-messages {
+    min-width: 4vmax;
+    min-height: 4vmax;
 }

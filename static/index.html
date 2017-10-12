@@ -21,8 +21,17 @@
     <script src="./lib/joydiv.js"></script>
 
     <script>
-        function onReady() {
+        function attachJoystick(element, updateHandler) {
+            var joydiv = new JoydivModule.Joydiv({ 'element': element });
+            element.addEventListener('joydiv-changed', function (e) {
+                const direction = joydiv.getOneDirection();
+                updateHandler(direction);
+            });
+        }
 
+        function onReady() {
+            attachJoystick(document.getElementById('moving-controller'), inputController.updateDirection);
+            attachJoystick(document.getElementById('camera-controller'), inputController.updateCamera);
         }
         document.addEventListener('DOMContentLoaded', onReady);
 
@@ -91,46 +100,51 @@
             var participants = document.querySelector(".inputCallParticipants").value;
             emitter.emitCmd('makeCall', { video: true, participants: participants });
         }
-
     </script>
 
     <div id="view-starting-ph">Starting...</div>
     <div id="view-normal" class="hiddenInStartup">
-
-
-        <div id='controller' class="joydiv-controller">
-            <div class="joydiv-up"></div>
-            <div class="joydiv-left"></div>
-            <div class="joydiv-right"></div>
-            <div class="joydiv-down"></div>
-            <div class="joydiv-trackpad">
-                <div class="joydiv-tracker"></div>
+        <div class="panel">
+            <div>
+                <div class="panel">
+                    <div class="half-font">moving</div>
+                    <div id='moving-controller' class="joydiv-controller controller">
+                        <div class="joydiv-up"></div>
+                        <div class="joydiv-left"></div>
+                        <div class="joydiv-right"></div>
+                        <div class="joydiv-down"></div>
+                        <div class="joydiv-trackpad">
+                            <div class="joydiv-tracker"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="half-font">camera</div>
+                    <div id='camera-controller' class="joydiv-controller controller">
+                        <div class="joydiv-up"></div>
+                        <div class="joydiv-left"></div>
+                        <div class="joydiv-right"></div>
+                        <div class="joydiv-down"></div>
+                        <div class="joydiv-trackpad">
+                            <div class="joydiv-tracker"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <script type="text/javascript">
-            var element = document.getElementById('controller');
-            var joydiv = new JoydivModule.Joydiv({ 'element': element });
-            element.addEventListener('joydiv-changed', function (e) {
-                const direction = joydiv.getOneDirection();
-                inputController.updateDirection(direction);
-            });
-        </script>
+            <div class="half-font">
+                <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games" />
+                <button onclick="msgVideoCall()">make a call</button>
+            </div>
 
-        <div>
-            <input class="inputCallParticipants" name="participants" type="text" value="chaos.lab.games" />
-            <button onclick="msgVideoCall()">make a call</button>
         </div>
-
-        <hr/>
-        <div>
-            <input class="room-name-input" type="text" /> <button onclick="requestJoin()">join</button>
-        </div>
-        <div>
-            <textarea class="channel-messages"></textarea>
-        </div>
-        <div>
-            <hr/>
+        <div class="panel">
+            <div class="half-font">
+                <input class="room-name-input" type="text" /> <button onclick="requestJoin()">join</button>
+            </div>
+            <div class="half-font">
+                <textarea class="channel-messages"></textarea>
+            </div>
         </div>
     </div>
 
