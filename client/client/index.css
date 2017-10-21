@@ -1,0 +1,59 @@
+* {
+    user-select: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    font-size: 5vmax;
+}
+
+body {
+    padding: 30px;
+}
+
+.activeTicket {
+}
+
+.yourTicket {
+}
+
+.handUpInfo {
+    text-align: center;
+    font-stretch: ultra-expanded;
+}
+
+.errorNotification .title {
+    color: red;
+    padding-bottom: 30px;
+}
+
+.errorNotification .description {
+    color: darkred;
+    font-size: small;
+}
+
+.hiddenInStartup  {
+    display: none;
+}
+
+.handState {
+}
+
+li {
+    display: inline;
+    font-size: x-small;
+}
+
+.channel-messages {
+    font-size: 1vmax;
+    width: 100%;
+    height: 10vmax;
+}
+
+
+#controller{
+    width: 5vmax;
+    height: 5vmax;
+    font-size: 5vmax;//font-size is used to determine the size of arrows
+}
