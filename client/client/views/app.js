@@ -1,18 +1,16 @@
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { render } from 'react-dom';
+import { connect } from 'react-redux';
 
-let store = createStore((state = [], action) => {
-
-});
-
-
-const App = (props) => {
-  return (
-    <Provider store={store}>
-      <h1>Hello App!</h1>
-    </Provider>
-  );
+const CameraJoystik = ({ requestHello, message }) => {
+  return <div><span> {message}</span> <button onClick={requestHello}>request</button></div>;
 };
 
-export default App;
+const helloConnect = connect(
+  ({ message }) => ({ message }),
+  (dispatch) => ({ requestHello: () => dispatch({ type: 'requestHello' }) }));
+
+const App = (props) => {
+  return <CameraJoystik {...props} />;
+};
+
+export default helloConnect(App);
