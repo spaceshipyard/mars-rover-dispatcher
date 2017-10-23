@@ -62,7 +62,8 @@ function* platformMove() { // fixme copy past from cam update
 function* videoCall(socket, action) {
     while (true) {
         const { participant } = yield take('requestVideoCall');
-        socket.emit('message', { cmd: 'makeCall', video: true, participants: participant });
+        const msg = { cmd: 'makeCall', video: true, participants: participant };
+        yield put({ type: 'sendMessage', params: msg });
     }
 }
 
