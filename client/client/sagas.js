@@ -44,7 +44,7 @@ function* camUpdate() {
 
         const msg = { cmd: 'camera', params: { offset: value } }
 
-        yield put({ type: 'sendMessage', params:msg });
+        yield put({ type: 'sendMessage', params: msg });
     }
 
 }
@@ -55,9 +55,17 @@ function* platformMove() { // fixme copy past from cam update
 
         const msg = { cmd: 'direction', params: { offset: value } }
 
-        yield put({ type: 'sendMessage', params:msg });
-    }    
+        yield put({ type: 'sendMessage', params: msg });
+    }
 }
+
+function* videoCall(socket, action) {
+    while (true) {
+        const { participant } = yield take('requestVideoCall');
+        socket.emit('message', { cmd: 'makeCall', video: true, participants: participant });
+    }
+}
+
 
 function* write(socket, action) {
     while (true) {
@@ -68,6 +76,7 @@ function* write(socket, action) {
 
 function* handleIO(socket) {
     yield fork(camUpdate);
+    yield fork(videoCall, socket);
     yield fork(platformMove);
     yield fork(read, socket);
     yield fork(write, socket);

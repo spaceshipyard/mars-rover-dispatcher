@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as socketReducer } from './socket';
 import platformReducer from './paltform';
+import videoReducer from './video';
 
 const cameraReducer = (state = { x: 0, y: 0 }, action) => {
     switch (action.type) {
@@ -14,7 +15,8 @@ const cameraReducer = (state = { x: 0, y: 0 }, action) => {
 const rootReducer = combineReducers({
     camera: cameraReducer,
     socket: socketReducer,
-    platform: platformReducer
+    platform: platformReducer,
+    video: videoReducer
 });
 
 export default rootReducer;
