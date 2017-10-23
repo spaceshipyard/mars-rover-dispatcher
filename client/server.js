@@ -9,7 +9,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 if (isDevelopment) {
   const webpack = require('webpack');
-  const webpackConfig = require('./webpack.config').default;
+  const webpackConfig = require('./webpack.config.babel').default;
   const compiler = webpack(webpackConfig);
   app.use(require('webpack-dev-middleware')(compiler, {
     hot: true,
