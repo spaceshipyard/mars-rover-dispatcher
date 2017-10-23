@@ -49,6 +49,16 @@ function* camUpdate() {
 
 }
 
+function* platformMove() { // fixme copy past from cam update
+    while (true) {
+        const { value } = yield take('platformMove');
+
+        const msg = { cmd: 'direction', params: { offset: value } }
+
+        yield put({ type: 'sendMessage', params:msg });
+    }    
+}
+
 function* write(socket, action) {
     while (true) {
         const { params } = yield take('sendMessage');
@@ -58,6 +68,7 @@ function* write(socket, action) {
 
 function* handleIO(socket) {
     yield fork(camUpdate);
+    yield fork(platformMove);
     yield fork(read, socket);
     yield fork(write, socket);
 }
