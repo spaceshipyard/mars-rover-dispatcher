@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 
-const PORT = 7700;
+const PORT = 80;
 const PUBLIC_PATH = __dirname + '/public';
 const app = express();
 
@@ -27,6 +27,6 @@ app.all("*", function(req, res) {
 });
 
 
-app.listen(PORT, function() {
+app.listen(PORT, '0.0.0.0', function() {
   console.log('Listening on port ' + PORT + '...');
 });

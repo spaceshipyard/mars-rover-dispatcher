@@ -3,7 +3,7 @@ import { eventChannel } from 'redux-saga';
 import { fork, take, takeEvery, call, put, cancel } from 'redux-saga/effects';
 
 function connect() {
-    const socket = io('http://localhost');
+    const socket = io(':8080');
     return socket;
 }
 

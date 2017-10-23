@@ -6,8 +6,8 @@ const app = express();
 const path = require('path');
 const fs = require('fs');
 
-const host = process.env.host || 'localhost';
-const port = process.env.port || 80;
+const host = process.env.host || '0.0.0.0';
+const port = process.env.port || 8080;
 
 const http = require('http');
 const server = http.createServer(app);
