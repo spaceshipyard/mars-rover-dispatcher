@@ -61,3 +61,7 @@ typings/
 .idea
 .iml
 .vscode
+
+# compiled files
+client/public/index.html
+client/public/bundle*
