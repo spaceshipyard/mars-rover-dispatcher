@@ -25,7 +25,7 @@ const errorsReducer = (state = [], action) => {
     }
 
     return state;    
-}
+};
 
 
 export const reducer = combineReducers({ connected: connectedReducer, errors:errorsReducer });

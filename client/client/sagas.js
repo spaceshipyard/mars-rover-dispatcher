@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
-import { eventChannel } from 'redux-saga';
-import { fork, take, takeEvery, call, put, cancel } from 'redux-saga/effects';
+import {eventChannel} from 'redux-saga';
+import {fork, take, takeEvery, call, put, cancel} from 'redux-saga/effects';
 
 function connect() {
     const socket = io(':8080');
@@ -11,7 +11,9 @@ function subscribe(socket) {
 
     return eventChannel(emit => {
 
-        const bindToSocket = (event) => { socket.on(event, (data) => emit({ type: event, params: data })); };
+        const bindToSocket = (event) => {
+            socket.on(event, (data) => emit({type: event, params: data}));
+        };
 
         bindToSocket('connect');
         bindToSocket('reconnected');
@@ -23,7 +25,8 @@ function subscribe(socket) {
         bindToSocket('join');
         bindToSocket('memberJoined');
 
-        return () => { };
+        return () => {
+        };
     });
 }
 
@@ -40,37 +43,37 @@ function* read(socket) {
 
 function* camUpdate() {
     while (true) {
-        const { value } = yield take('camUpdate');
+        const {value} = yield take('camUpdate');
 
-        const msg = { cmd: 'camera', params: { offset: value } }
+        const msg = {cmd: 'camera', params: {offset: value}}
 
-        yield put({ type: 'sendMessage', params: msg });
+        yield put({type: 'sendMessage', params: msg});
     }
 
 }
 
 function* platformMove() { // fixme copy past from cam update
     while (true) {
-        const { value } = yield take('platformMove');
+        const {value} = yield take('platformMove');
 
-        const msg = { cmd: 'direction', params: { offset: value } }
+        const msg = {cmd: 'direction', params: {offset: value}}
 
-        yield put({ type: 'sendMessage', params: msg });
+        yield put({type: 'sendMessage', params: msg});
     }
 }
 
 function* videoCall(socket, action) {
     while (true) {
-        const { participant } = yield take('requestVideoCall');
-        const msg = { cmd: 'makeCall', params: {video: true, participants: participant }};
-        yield put({ type: 'sendMessage', params: msg });
+        const {participant} = yield take('requestVideoCall');
+        const msg = {cmd: 'makeCall', params: {video: true, participants: participant}};
+        yield put({type: 'sendMessage', params: msg});
     }
 }
 
 
 function* write(socket, action) {
     while (true) {
-        const { params } = yield take('sendMessage');
+        const {params} = yield take('sendMessage');
         socket.emit('message', params);
     }
 }
@@ -81,6 +84,21 @@ function* handleIO(socket) {
     yield fork(platformMove);
     yield fork(read, socket);
     yield fork(write, socket);
+    yield takeEvery('welcome', welcomeFlow, socket)
+}
+
+function* joinToRoomFlow(socket, targetRoom) {
+    socket.emit('join', {roomName: targetRoom});
+    const {params: {roomName}} = yield take(
+        ({type, params: {roomName}}) => type === 'join' && roomName === targetRoom);
+    yield params;
+}
+
+function* welcomeFlow(socket, {params}) {
+    yield put({type: 'inLobby', params: params});
+    const {params: {name}} = yield take('requestJoinRoom');
+    yield call(joinToRoomFlow, socket, name);
+    yield put({type: 'leaveLobby', params});
 }
 
 function* flow() {
