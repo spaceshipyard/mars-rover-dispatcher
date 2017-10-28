@@ -87,22 +87,29 @@ function* handleIO(socket) {
     yield fork(welcomeFlow, socket);
 }
 
-function* joinToRoomFlow(socket, {params: {roomName}}) {
-    socket.emit('join', {roomName});
-    const {params} = yield take(
-        ({type, params}) => type === 'join' && params && params.roomName === roomName);
-    yield params;
+function* joinToRoomFlow(socket, {params}) {
+    const {name: targetRoomName } = params;
+    console.log(targetRoomName);
+    socket.emit('join', {roomName: targetRoomName});
+    const {params: {roomName:joinedRoomName}} = yield take('join');
+    console.log('joined', joinedRoomName);
+    if (joinedRoomName === targetRoomName) {
+        return params;
+    } else {
+        throw new Error(`unexpected room ${joinedRoomName}`);
+    }
 }
 
 function* welcomeFlow(socket) {
     while (true) {
-        const {params:welcomeParams} = yield take('welcome');
+        const {params: welcomeParams} = yield take('welcome');
         yield put({type: 'inLobby', params: welcomeParams});
-        const {params:joinParams} = yield take('requestJoinRoom');
-        yield call(joinToRoomFlow, socket, joinParams);
+        const {params: joinParams} = yield take('requestJoinRoom');
+        console.log('join started');
+        yield call(joinToRoomFlow, socket, {params: joinParams});
+        console.log('join finished');
         yield put({type: 'leaveLobby', joinParams});
     }
-
 }
 
 function* flow() {

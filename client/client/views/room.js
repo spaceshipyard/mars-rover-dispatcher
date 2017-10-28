@@ -9,15 +9,21 @@ const stateToRoom = connect(
 class RoomView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { joinRoomName: localStorage.joinRoomName || 'lobby' };
+    }
+
+    onChange(value) {
+        this.setState({joinRoomName: value});
+        localStorage.joinRoomName = value;
     }
 
     render() {
-        const {inLobby, requestJoinRoom} = this.props;
+        const {room:{inLobby, roomName}, requestJoinRoom, } = this.props;
         return <div>
-            <div>isLobby: {inLobby ? 'inLobby' : 'room'}</div>
+            <div>{inLobby ? 'inLobby' : 'in room'}</div>
+            <div>Room Name: {roomName}</div>
             <div>join: <input value={this.state.joinRoomName}
-                              onChange={({target}) => this.setState({joinRoomName: target.value})}/>
+                              onChange={({target}) => this.onChange(target.value)}/>
                 <button onClick={() => requestJoinRoom(this.state.joinRoomName)}>join</button>
             </div>
 
