@@ -61,10 +61,12 @@ function configureSocket() {
 
         socket.on('join', ({roomName}) => {
             socket.leave(currentRoomName, () => {
+                console.log('leave', currentRoomName, socket.id);
                 socket.emit('leave', { roomName: currentRoomName });
                 socket.join(roomName, () => {
                     currentRoomName = roomName;
                     socket.to(roomName).emit('memberJoined', {clientId: socket.id});
+                    console.log('join', roomName, socket.id);
                     socket.emit('join', {roomName});
                 });
             })

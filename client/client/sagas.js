@@ -84,21 +84,25 @@ function* handleIO(socket) {
     yield fork(platformMove);
     yield fork(read, socket);
     yield fork(write, socket);
-    yield takeEvery('welcome', welcomeFlow, socket)
+    yield fork(welcomeFlow, socket);
 }
 
-function* joinToRoomFlow(socket, targetRoom) {
-    socket.emit('join', {roomName: targetRoom});
-    const {params: {roomName}} = yield take(
-        ({type, params: {roomName}}) => type === 'join' && roomName === targetRoom);
+function* joinToRoomFlow(socket, {params: {roomName}}) {
+    socket.emit('join', {roomName});
+    const {params} = yield take(
+        ({type, params}) => type === 'join' && params && params.roomName === roomName);
     yield params;
 }
 
-function* welcomeFlow(socket, {params}) {
-    yield put({type: 'inLobby', params: params});
-    const {params: {name}} = yield take('requestJoinRoom');
-    yield call(joinToRoomFlow, socket, name);
-    yield put({type: 'leaveLobby', params});
+function* welcomeFlow(socket) {
+    while (true) {
+        const {params:welcomeParams} = yield take('welcome');
+        yield put({type: 'inLobby', params: welcomeParams});
+        const {params:joinParams} = yield take('requestJoinRoom');
+        yield call(joinToRoomFlow, socket, joinParams);
+        yield put({type: 'leaveLobby', joinParams});
+    }
+
 }
 
 function* flow() {
