@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {combineReducers} from 'redux';
 
 const inLobbyReducer = (state = true, {type}) => {

@@ -62,6 +62,16 @@ function* platformMove() { // fixme copy past from cam update
     }
 }
 
+function* platformStepperMove() { // fixme copy past from cam update
+    while (true) {
+        const {value} = yield take('platformStepperMove');
+
+        const msg = {cmd: 'stepper-platform', params: {offset: value}}
+
+        yield put({type: 'sendMessage', params: msg});
+    }
+}
+
 function* videoCall(socket, action) {
     while (true) {
         const {participant} = yield take('requestVideoCall');
@@ -82,6 +92,7 @@ function* handleIO(socket) {
     yield fork(camUpdate);
     yield fork(videoCall, socket);
     yield fork(platformMove);
+    yield fork(platformStepperMove);
     yield fork(read, socket);
     yield fork(write, socket);
     yield fork(welcomeFlow, socket);

@@ -6,7 +6,7 @@ const app = express();
 const path = require('path');
 const fs = require('fs');
 
-const host = process.env.host || '0.0.0.0';
+const host = process.env.host || '192.168.0.104';
 const port = process.env.port || 8080;
 
 const http = require('http');
