@@ -27,6 +27,6 @@ app.all("*", function(req, res) {
 });
 
 
-app.listen(PORT, '192.168.0.104', function() {
+app.listen(PORT, '0.0.0.0', function() {
   console.log('Listening on port ' + PORT + '...');
 });
