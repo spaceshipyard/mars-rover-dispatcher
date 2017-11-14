@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 const CameraJoystik = ({ onChange, x, y }) => {
     const getValue = (event) => event.target.value
     return <div>
-        <span>Camra Joystick</span>
+        <span>Camera Joystick</span>
         <div>
             <input type="range" min="0" max="180" step="1" value={x} onChange={(e) => onChange({ y, x: getValue(e) })} />
             <input type="range" min="0" max="180" step="1" value={y} onChange={(e) => onChange({ x, y: getValue(e) })} />

@@ -1,17 +1,18 @@
 import { render } from 'react-dom';
 import CameraJoystik from './camera-joystick';
 import PlatformJoystik from './platform-joystick';
-import PlatformStepper from './platform-stepper';
+import NippleJoystik from './nipple-joystick';
 import SocketStatus from './socket-status';
 import VideoPanel from './video-panel';
 import Room from './room';
+import '../style/main.css';
 
 const App = (props) => {
   return <div>
     <SocketStatus />
     <CameraJoystik />
     <PlatformJoystik />
-    <PlatformStepper />
+    <NippleJoystik />
     <VideoPanel/>
     <Room/>
   </div>;

@@ -1,5 +1,6 @@
 import Config from 'webpack-config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import webpack from 'webpack';
 
 export default new Config().merge({
@@ -8,15 +9,36 @@ export default new Config().merge({
     path: __dirname + '/../public',
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /.jsx?$/,
+        test: /\.js$/,
+        exclude: [
+          /node_modules/,
+          /mock-server/,
+        ],
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        options: {
+          cacheDirectory: true,
+          presets: [
+            ['env', {
+              modules: false,
+            }],
+            'stage-0',
+            'react',
+          ],
+        },
+      },
+      {
+        test: /.css?$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
       }
     ]
   },
   plugins: [
+    new ExtractTextPlugin("styles.css"),
     new webpack.ProvidePlugin({
       "React": "react",
     }),
