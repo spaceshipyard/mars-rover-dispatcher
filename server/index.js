@@ -17,6 +17,8 @@ const io = require('socket.io')(server);
 configureStatic();
 configureSocket();
 
+console.log('listen', {host, port});
+
 server.listen(port, host);
 
 
