@@ -1,6 +1,7 @@
 import { render } from 'react-dom';
 import CameraJoystik from './camera-joystick';
 import PlatformJoystik from './platform-joystick';
+import GamepadJoystik from './gamepad-joystick';
 import NippleJoystik from './nipple-joystick';
 import SocketStatus from './socket-status';
 import VideoPanel from './video-panel';
@@ -13,6 +14,7 @@ const App = (props) => {
     <CameraJoystik />
     <PlatformJoystik />
     <NippleJoystik />
+    <GamepadJoystik />
     <VideoPanel/>
     <Room/>
   </div>;
