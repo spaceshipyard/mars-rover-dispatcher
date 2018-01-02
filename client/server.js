@@ -7,6 +7,8 @@ const app = express();
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+let server;
+
 if (isDevelopment) {
   const webpack = require('webpack');
   const webpackConfig = require('./webpack.config.babel').default;
@@ -22,11 +24,24 @@ if (isDevelopment) {
   app.use(express.static(PUBLIC_PATH));
 }
 
+
+//fixme copy past with socket server and UI
+const shutDownServer = () => {
+    process.nextTick(() => {
+        server.close();
+        process.exit(0);
+    })
+};
+app.get('/shutdown', function(req, res) {
+    res.send('ok');
+    shutDownServer();
+});
+
 app.all("*", function(req, res) {
   res.sendFile(path.resolve(PUBLIC_PATH, 'index.html'));
 });
 
 
-app.listen(PORT, '0.0.0.0', function() {
+server = app.listen(PORT, '0.0.0.0', function() {
   console.log('Listening on port ' + PORT + '...');
 });

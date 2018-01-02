@@ -13,19 +13,33 @@ const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-
 configureStatic();
 configureSocket();
 
 console.log('listen', {host, port});
 
-server.listen(port, host);
+const serverInstance = server.listen(port, host);
 
 
 function configureStatic() {
     app.use('/socket.io/socket.io.js', express.static(path.resolve(__dirname, '../node_modules/socket.io-client/socket.io.js')));
     app.use('/', express.static('static'));
 }
+
+//fixme copy past with socket server and UI
+const shutDownServer = () => {
+    process.nextTick(() => {
+        console.log('stop server');
+        serverInstance.close();
+        io.close();
+        process.exit(0);
+    })
+};
+app.get('/shutdown', function(req, res) {
+    res.send('ok');
+    shutDownServer();
+});
+
 
 const defaultRoomName = 'lobby';
 
