@@ -24,8 +24,8 @@ class NippleJoystik extends PureComponent {
 
         radian += Math.PI/4;
 
-        const x = -force * Math.cos(radian);
-        const y = force * Math.sin(radian);
+        const x = force * Math.cos(radian);
+        const y = -force * Math.sin(radian);
 
         onChange({x, y});
 
