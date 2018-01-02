@@ -22,39 +22,16 @@ class NippleJoystik extends PureComponent {
       }).on('move', function(evt, data) {
         let x = 0;
         let y = 0;
-        let { force, direction: { angle: angle } } = data;
+        let { force, distance, angle: { radian } } = data;
 
-        if(force>2) {
-          force = 2;
-        }
+        radian += Math.PI/4;
 
-        if(force<-2) {
-          force = -2;
-        }
+        x = -force * Math.cos(radian);
+        y = force * Math.sin(radian);
 
-        switch(angle) {
-          case 'up':
-            x = force;
-            y = force;
-            break;
+          console.log(x,y);
 
-          case 'left':
-            x = force;
-            break;
-
-          case 'right':
-            y = force;
-            break;
-
-          case 'down':
-            x = -force;
-            y = -force;
-            break;
-        }
-
-        if(['up', 'left', 'right', 'down'].includes(angle)){
-          onChange({ x, y });
-        }
+        onChange({x, y});
 
       }).on('dir:up plain:up dir:left plain:left dir:down ' +
         'plain:down dir:right plain:right',
