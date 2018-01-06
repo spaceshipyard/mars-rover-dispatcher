@@ -36,7 +36,7 @@ class GamepadJoystik extends Component {
             this.setState({ controllerIds: controllers.map( _ => _.id ) });
         };
 
-        function updateStatus() {
+        const updateStatus = () => {
             if (!haveEvents) {
                 scangamepads();
             }
@@ -66,9 +66,31 @@ class GamepadJoystik extends Component {
                     onChange(values);
                     previousValues = values;
                 }
+                const upBtn = controller.buttons[4].pressed;
+                const downBtn = controller.buttons[6].pressed;
+                const leftBtn = controller.buttons[5].pressed;
+                const rightBtn = controller.buttons[7].pressed;
+                const prevCamera = this.props.camera;
+                let camX = prevCamera.x;
+                let camY = prevCamera.y;
+                if (upBtn) {
+                    camY += 1;
+                }
+                if (downBtn) {
+                    camY -= 1;
+                }
 
+                if (leftBtn) {
+                    camX -= 1;
+                }
 
-
+                if (rightBtn) {
+                    camX += 1;
+                }
+                const newValues = {x: camX, y: camY};
+                if (!(newValues.x === prevCamera.x && newValues.y === prevCamera.y)) {
+                    this.props.onChangeCamPosition(newValues);
+                }
             }
 
             requestAnimationFrame(updateStatus);
@@ -119,7 +141,11 @@ class GamepadJoystik extends Component {
 ;
 
 const connectToPlatform = connect(
-    ({platform:{offset}}) => ({x: offset.x, y: offset.y}),
-    (dispatch) => ({onChange: ({x, y}) => dispatch({type: 'platformMove', value: {x, y}})}));
+    ({platform:{offset}, camera}) => ({x: offset.x, y: offset.y, camera}),
+    (dispatch) => ({
+        onChange: ({x, y}) => dispatch({type: 'platformMove', value: {x, y}}),
+        onChangeCamPosition: ({ x, y }) => dispatch({ type: 'camUpdate', value: { x, y } })
+    })
+);
 
 export default connectToPlatform(GamepadJoystik);
