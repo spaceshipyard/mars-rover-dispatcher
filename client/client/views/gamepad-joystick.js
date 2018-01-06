@@ -73,19 +73,20 @@ class GamepadJoystik extends Component {
                 const prevCamera = this.props.camera;
                 let camX = prevCamera.x;
                 let camY = prevCamera.y;
+                const delta = 0.3;
                 if (upBtn) {
-                    camY += 1;
+                    camY += delta;
                 }
                 if (downBtn) {
-                    camY -= 1;
+                    camY -= delta;
                 }
 
                 if (leftBtn) {
-                    camX -= 1;
+                    camX -= delta;
                 }
 
                 if (rightBtn) {
-                    camX += 1;
+                    camX += delta;
                 }
                 const newValues = {x: camX, y: camY};
                 if (!(newValues.x === prevCamera.x && newValues.y === prevCamera.y)) {
