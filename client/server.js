@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 
-const PORT = 8082;
+const PORT = process.env.portClient || 8082;
 const PUBLIC_PATH = __dirname + '/public';
 const app = express();
 

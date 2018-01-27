@@ -1,18 +1,30 @@
 #!/bin/sh
-rootdir='/home/pi/mars-control'
-host=198.168.0.123
-port=8082
+rootdir='/home/pi/mars'
 
-cd $rootdir/mars-rover-node-bridge
-git pull
-export host=http://$host:$port
-nohup npm start &
+log=$rootdir/log
+
+#server
+host=127.0.0.1
+port=8080
+
+#client
+portClient=8083
+
+room=vn
+
+export host=$host
+export port=$port
+export portClient=$portClient
+export room=$room
 
 cd $rootdir/mars-rover-dispatcher/server
 git pull
-export host=$host 
-nohup npm start &
+npm run start > $log &
 
 cd $rootdir/mars-rover-dispatcher/client
 git pull
-nohup npm run build:dev &
+npm run start > $log &
+
+cd $rootdir/mars-rover-node-bridge
+git pull
+npm run start > $log &
