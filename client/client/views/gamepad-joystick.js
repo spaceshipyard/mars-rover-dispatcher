@@ -87,8 +87,8 @@ class GamepadJoystik extends Component {
                 }
 
                 const prevCamera = this.props.camera;
-                const newValues = {x: -(controller.axes[1] * 180 - 90).toFixed(4),
-                                   y:  (controller.axes[0] * 180 + 90).toFixed(4)};
+                const newValues = {x: -(controller.axes[3] * 180 - 90).toFixed(4),
+                                   y:  (controller.axes[2] * 180 + 90).toFixed(4)};
 
 
 
