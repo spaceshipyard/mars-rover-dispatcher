@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {Component} from 'react';
-
+import { directAngleToPosition } from './utils';
 
 class GamepadJoystik extends Component {
     constructor() {
@@ -59,36 +59,39 @@ class GamepadJoystik extends Component {
                 // for (i = 0; i < controller.axes.length; i++) {
                 //     console.log(i, controller.axes[i].toFixed(4));
                 // }
-                const values = {x: +(controller.axes[1]*2).toFixed(4), y: +(controller.axes[3]*2).toFixed(4)};
+                // const values = {x: -(controller.axes[1] * 2).toFixed(4), y: +(controller.axes[0]*2).toFixed(4)};
 
-                if (!previousValues || !(values.x === previousValues.x && values.y === previousValues.y)) {
-                    console.log('values', values);
-                    onChange(values);
-                    previousValues = values;
+                // const force = Math.sqrt(Math.pow(values.x, 2) + Math.pow(values.y, 2));
+                // const radian = values.y / force + Math.PI/4;
+                // const x = force * Math.cos(radian);
+                // const y = -force * Math.sin(radian);
+                
+                const upBtn = controller.buttons[12].pressed;
+                const downBtn = controller.buttons[13].pressed;
+                const leftBtn = controller.buttons[14].pressed;
+                const rightBtn = controller.buttons[15].pressed;
+
+                let movingDirection = 'none'
+
+                upBtn && (movingDirection = 'up');
+                downBtn && (movingDirection = 'down');
+                leftBtn && (movingDirection = 'left');
+                rightBtn && (movingDirection = 'right');
+
+                const dirValues = directAngleToPosition(movingDirection);
+
+                if (!previousValues || !(dirValues.x === previousValues.x && dirValues.y === previousValues.y)) {
+                    console.log('values', dirValues);
+                    onChange(dirValues);
+                    previousValues = dirValues;
                 }
-                const upBtn = controller.buttons[4].pressed;
-                const downBtn = controller.buttons[6].pressed;
-                const leftBtn = controller.buttons[5].pressed;
-                const rightBtn = controller.buttons[7].pressed;
+
                 const prevCamera = this.props.camera;
-                let camX = prevCamera.x;
-                let camY = prevCamera.y;
-                const delta = 0.3;
-                if (upBtn) {
-                    camY += delta;
-                }
-                if (downBtn) {
-                    camY -= delta;
-                }
+                const newValues = {x: -(controller.axes[1] * 180 - 90).toFixed(4),
+                                   y:  (controller.axes[0] * 180 + 90).toFixed(4)};
 
-                if (leftBtn) {
-                    camX -= delta;
-                }
 
-                if (rightBtn) {
-                    camX += delta;
-                }
-                const newValues = {x: camX, y: camY};
+
                 if (!(newValues.x === prevCamera.x && newValues.y === prevCamera.y)) {
                     this.props.onChangeCamPosition(newValues);
                 }

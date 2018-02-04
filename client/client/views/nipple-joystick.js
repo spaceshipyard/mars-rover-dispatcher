@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { PureComponent } from 'react';
 import nipplejs from 'nipplejs';
+import { directAngleToPosition } from './utils';
 
 class NippleJoystik extends PureComponent {
     componentDidMount(){
@@ -20,14 +21,14 @@ class NippleJoystik extends PureComponent {
         console.log('stop all');
         onChange({ x:0, y:0 });
       }).on('move', function(evt, data) {
-        let { force, angle: { radian } } = data;
+        let { direction } = data;
 
-        radian += Math.PI/4;
-        force = force * 1.7;
+        let values;
+        if (direction) {
+          values = directAngleToPosition(direction.angle);
+        }
 
-        const x = force * Math.cos(radian);
-        const y = -force * Math.sin(radian);
-        onChange({x, y});
+        onChange(values);
 
       }).on('dir:up plain:up dir:left plain:left dir:down ' +
         'plain:down dir:right plain:right',
