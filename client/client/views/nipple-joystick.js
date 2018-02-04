@@ -23,10 +23,10 @@ class NippleJoystik extends PureComponent {
         let { force, angle: { radian } } = data;
 
         radian += Math.PI/4;
+        force = force * 1.7;
 
         const x = force * Math.cos(radian);
         const y = -force * Math.sin(radian);
-
         onChange({x, y});
 
       }).on('dir:up plain:up dir:left plain:left dir:down ' +
