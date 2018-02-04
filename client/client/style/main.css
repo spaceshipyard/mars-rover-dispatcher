@@ -1,5 +1,5 @@
 * {
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 #nipple-joystick {
@@ -41,4 +41,11 @@
     height: 1px;
     top: -45px;
     position: relative;
+}
+
+
+.socket-error {
+    position: absolute;
+    left: 310px;
+    display: block;
 }
