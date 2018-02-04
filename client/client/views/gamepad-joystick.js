@@ -55,16 +55,6 @@ class GamepadJoystik extends Component {
                         val = val.value;
                     }
                 }
-
-                // for (i = 0; i < controller.axes.length; i++) {
-                //     console.log(i, controller.axes[i].toFixed(4));
-                // }
-                // const values = {x: -(controller.axes[1] * 2).toFixed(4), y: +(controller.axes[0]*2).toFixed(4)};
-
-                // const force = Math.sqrt(Math.pow(values.x, 2) + Math.pow(values.y, 2));
-                // const radian = values.y / force + Math.PI/4;
-                // const x = force * Math.cos(radian);
-                // const y = -force * Math.sin(radian);
                 
                 const upBtn = controller.buttons[12].pressed;
                 const downBtn = controller.buttons[13].pressed;
@@ -81,19 +71,35 @@ class GamepadJoystik extends Component {
                 const dirValues = directAngleToPosition(movingDirection);
 
                 if (!previousValues || !(dirValues.x === previousValues.x && dirValues.y === previousValues.y)) {
-                    console.log('values', dirValues);
                     onChange(dirValues);
                     previousValues = dirValues;
                 }
 
                 const prevCamera = this.props.camera;
-                const newValues = {x: -(controller.axes[3] * 180 - 90).toFixed(4),
-                                   y:  (controller.axes[2] * 180 + 90).toFixed(4)};
+                let currCamValues = {x: prevCamera.x + (parseFloat(controller.axes[2])),
+                                       y: prevCamera.y + -(parseFloat(controller.axes[3]))};
 
 
+                if (controller.buttons[3].pressed) {
+                    currCamValues.x = 90;
+                    currCamValues.y = 90;
+                }
 
-                if (!(newValues.x === prevCamera.x && newValues.y === prevCamera.y)) {
-                    this.props.onChangeCamPosition(newValues);
+                if (controller.buttons[0].pressed) {
+                    currCamValues.x = 90;
+                    currCamValues.y = 180;
+                }
+
+
+                currCamValues.x = currCamValues.x > 180 ? 180 : currCamValues.x; 
+                currCamValues.x = currCamValues.x < 0 ? 0 : currCamValues.x; 
+
+                currCamValues.y = currCamValues.y > 180 ? 180 : currCamValues.y; 
+                currCamValues.y = currCamValues.y < 0 ? 0 : currCamValues.y; 
+                
+
+                if (!(currCamValues.x === prevCamera.x && currCamValues.y === prevCamera.y)) {
+                    this.props.onChangeCamPosition(currCamValues);
                 }
             }
 
