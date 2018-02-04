@@ -1,7 +1,44 @@
+* {
+    font-family: sans-serif;
+}
+
 #nipple-joystick {
     height: 300px;
     border-radius: 10px;
     margin-bottom: 10px;
     width: 300px;
     background: linear-gradient(rgba(0,255,141,0.16), rgba(209,41,175,0.16));
+}
+
+.proximity {
+    transition: all .2s;
+    width: 300px;
+    height: 20px;
+    display: block;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: rgba(255,255,255, .3);
+}
+
+.proximity:hover {
+    color: rgba(255,255,255, 1);
+}
+
+.proximity-good {
+    background-color: green;
+}
+.proximity-warning {
+    background-color: orange;
+}
+.proximity-danger {
+    background-color: red;
+}
+
+.proximity-line {
+    display: block;
+    height: 1px;
+    top: -45px;
+    position: relative;
 }

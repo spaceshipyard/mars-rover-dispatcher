@@ -35,11 +35,9 @@ function* read(socket) {
     const channel = yield call(subscribe, socket);
     while (true) {
         let action = yield take(channel);
-        console.log('action', action);
         yield put(action);
     }
 }
-
 
 function* camUpdate() {
     while (true) {
@@ -49,7 +47,6 @@ function* camUpdate() {
 
         yield put({type: 'sendMessage', params: msg});
     }
-
 }
 
 function* platformMove() { // fixme copy past from cam update
