@@ -32,7 +32,7 @@ class NippleJoystik extends PureComponent {
 
       }).on('dir:up plain:up dir:left plain:left dir:down ' +
         'plain:down dir:right plain:right',
-        function(evt, data) {
+        function(evt, data) { 
           console.log('stop all');
           onChange({ x:0, y:0 });
         }
