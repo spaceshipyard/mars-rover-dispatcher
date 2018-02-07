@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-const proximityReducer = (state = 0, action) => {
+const proximityReducer = (state = [], action) => {
   switch (action.type) {
       case 'message':
-          if (action.params.cmd=='proximity-data'){
+          if (action.params.cmd === 'proximity-data'){
             return state = action.params.result;
           }
         default:
