@@ -42,6 +42,6 @@ app.all("*", function(req, res) {
 });
 
 
-server = app.listen(PORT, '0.0.0.0', function() {
+server = app.listen(PORT, process.env.host || '0.0.0.0', function() {
   console.log('Listening on port ' + PORT + '...');
 });

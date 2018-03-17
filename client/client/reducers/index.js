@@ -4,6 +4,7 @@ import platformReducer from './paltform';
 import platformStepperReducer from './platform-stepper';
 import videoReducer from './video';
 import roomReducer from './room';
+import proximityReducer from './proximity';
 
 const cameraReducer = (state = { x: 0, y: 0 }, action) => {
     switch (action.type) {
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     platform: platformReducer,
     platformStepper: platformStepperReducer,
     video: videoReducer,
-    room: roomReducer
+    room: roomReducer,
+    proximity: proximityReducer
 });
 
 export default rootReducer;
