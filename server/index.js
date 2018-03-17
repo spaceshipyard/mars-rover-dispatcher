@@ -66,7 +66,8 @@ function configureSocket() {
 
         socket.on('message', function(data) {
             console.log('message', data);
-            io.to(currentRoomName).emit('message', data);
+            socket.broadcast.to(currentRoomName).emit('message', data);
+            socket.emit('msg:broadcasted', data);
         });
 
         socket.join(defaultRoomName, function () {
