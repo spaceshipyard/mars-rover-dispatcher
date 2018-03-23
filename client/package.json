@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "standard && echo \"Error: no test specified\" && exit 1",
     "build:dev": "cross-env NODE_ENV=development babel-node server.js",
     "build:prod": "cross-env-shell NODE_ENV=production \"webpack && babel-node server.js\"",
     "start": "npm run build:prod"
