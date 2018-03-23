@@ -1,5 +1,5 @@
-import webpack from 'webpack';
-import Config from 'webpack-config';
+import webpack from 'webpack'
+import Config from 'webpack-config'
 
 export default new Config().extend('config/webpack.base.config.js').merge({
   output: {
@@ -11,4 +11,4 @@ export default new Config().extend('config/webpack.base.config.js').merge({
         warnings: true
       }
     })]
-});
+})

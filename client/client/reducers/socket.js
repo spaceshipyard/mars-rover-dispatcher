@@ -1,32 +1,29 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 
 const connectedReducer = (state = false, action) => {
-    const { type, params } = action;
-    switch (type) {
-        case 'connect':
-            return true;
-        case 'reconnect_error':
-        case 'disconnect':
-        case 'error':
-            return false;
-    }
+  const { type } = action
+  switch (type) {
+    case 'connect':
+      return true
+    case 'reconnect_error':
+    case 'disconnect':
+    case 'error':
+      return false
+  }
 
-    return state;
-};
+  return state
+}
 
 const errorsReducer = (state = [], action) => {
-    const {type, params} = action;
-    switch (type) {
-        case 'reconnect_error':
-        case 'error':
-        console.log(params);
-            return [...state, params];
-    }
+  const {type, params} = action
+  switch (type) {
+    case 'reconnect_error':
+    case 'error':
+      console.log(params)
+      return [...state, params]
+  }
 
-    return state;    
-};
+  return state
+}
 
-
-export const reducer = combineReducers({ connected: connectedReducer, errors:errorsReducer });
-
-
+export const reducer = combineReducers({ connected: connectedReducer, errors: errorsReducer })

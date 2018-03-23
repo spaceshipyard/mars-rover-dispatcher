@@ -4,7 +4,7 @@
   "description": "dispatcher for remote control",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "standard && echo \"Error: no test specified\" && exit 1",
     "start": "node ./index.js",
     "start:watch": "nodemon --watch index.js --exec npm run start"
   },
@@ -19,7 +19,8 @@
     "lodash": "^4.17.4",
     "nodemon": "^1.12.1",
     "socket.io": "^2.0.1",
-    "socket.io-client": "^2.0.1"
+    "socket.io-client": "^2.0.1",
+    "standard": "^11.0.1"
   },
   "devDependencies": {}
 }
