@@ -1,14 +1,15 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux'
 
 const proximityReducer = (state = [], {type, params}) => {
   if (type === 'message' && params.cmd === 'sensor.data') {
-    const {type, data} = params.params //fixme it should be destructed somewhere else
+    // fixme it should be destructed somewhere else
+    const {type, data} = params.params
     if (type === 'proximity-data') {
-      return state = data;
+      state = data
     }
   }
 
-  return state;
-};
+  return state
+}
 
 export default combineReducers({proximity: proximityReducer})
