@@ -12,6 +12,16 @@ export default new Config().merge({
   module: {
     rules: [
       {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        loader: 'standard-loader',
+        exclude: /(node_modules|bower_components)/,
+        options: {
+          error: false,
+          parser: 'babel-eslint'
+        }
+      },
+      {
         test: /\.js$/,
         exclude: [
           /node_modules/,
