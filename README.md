@@ -1,3 +1,5 @@
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 Mars Rover Dispatcher
 =========================
 it is a web server to control remote robots over network based on socket.io,
