@@ -20,7 +20,6 @@ const StoreProvider = (props) => {
 }
 
 const dispatch = (type, params = {}) => store.dispatch({ type, params })
-addSocketEvents(dispatch)
 
 if (module.hot) {
   // Enable Webpack hot module replacement for reducers
