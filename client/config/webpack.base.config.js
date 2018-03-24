@@ -1,49 +1,60 @@
-import Config from 'webpack-config';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import webpack from 'webpack';
+import Config from 'webpack-config'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import webpack from 'webpack'
+import path from 'path'
 
 export default new Config().merge({
   entry: ['babel-polyfill', './client/index.js'],
   output: {
-    path: __dirname + '/../public',
+    path: path.join(__dirname, '/../public')
   },
   module: {
     rules: [
       {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        loader: 'standard-loader',
+        exclude: /(node_modules|bower_components)/,
+        options: {
+          error: false,
+          parser: 'babel-eslint'
+        }
+      },
+      {
         test: /\.js$/,
         exclude: [
           /node_modules/,
-          /mock-server/,
+          /mock-server/
         ],
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,
           presets: [
             ['env', {
-              modules: false,
+              modules: false
             }],
             'stage-0',
-            'react',
-          ],
-        },
+            'react'
+          ]
+        }
       },
       {
         test: /.css?$/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
+          fallback: 'style-loader',
+          use: 'css-loader'
         })
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("styles.css"),
+    new ExtractTextPlugin('styles.css'),
     new webpack.ProvidePlugin({
-      "React": "react",
+      'React': 'react'
     }),
     new HtmlWebpackPlugin({
       template: './client/index.html',
-      inject: "body"
+      inject: 'body'
     })]
-});
+})
