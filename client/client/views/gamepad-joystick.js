@@ -1,6 +1,7 @@
 import {connect} from 'react-redux'
 import {Component} from 'react'
 import { directAngleToPosition } from './utils'
+import Joystick from '../svg/game-console.svg'
 
 class GamepadJoystik extends Component {
   constructor () {
@@ -134,9 +135,9 @@ class GamepadJoystik extends Component {
   }
 
   render () {
+    const hasJoystick = this.state.controllerIds && this.state.controllerIds.length
     return <div>
-      <span>gamepad: </span>
-      <span>{(this.state.controllerIds && this.state.controllerIds.join(', ')) || 'no gamepad'}</span>
+      {hasJoystick ? <span class='joystick-icon icon' title={(this.state.controllerIds.join(', ')) || 'no gamepad'}><Joystick /></span> : ''}
     </div>
   }
 }

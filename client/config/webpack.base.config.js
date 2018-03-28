@@ -22,6 +22,10 @@ export default new Config().merge({
         }
       },
       {
+        test: /\.svg$/,
+        loader: 'svg-react-loader'
+      },
+      {
         test: /\.js$/,
         exclude: [
           /node_modules/,

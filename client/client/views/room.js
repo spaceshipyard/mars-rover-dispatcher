@@ -21,12 +21,10 @@ class RoomView extends React.Component {
   render () {
     const {room: {inLobby, roomName}, requestJoinRoom} = this.props
     return <div>
-      <div>{inLobby ? 'inLobby' : 'in room'}</div>
-      <div>Room Name: {roomName}</div>
-      <div>join:</div>
+      <div>{inLobby ? 'inLobby' : <div>Room: {roomName}</div>}</div>
       <div>
-        <input value={this.state.joinRoomName} onChange={({target}) => this.onChange(target.value)} />
-        <button onClick={() => requestJoinRoom(this.state.joinRoomName)}>join</button>
+        <input placeholder='room' value={this.state.joinRoomName} onChange={({target}) => this.onChange(target.value)} />
+        <button onClick={() => requestJoinRoom(this.state.joinRoomName)}>join room</button>
       </div>
     </div>
   }

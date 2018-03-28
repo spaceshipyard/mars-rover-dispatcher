@@ -5,7 +5,6 @@ const ProximityStatusItem = ({ name, distance: proximity }) => {
   return <div>
     <span>{name}</span>
     <span className={`proximity proximity-${status}`}>{Math.round(proximity)} см</span>
-    <span className={`proximity-line proximity-${status}`} style={{width: proximity > 300 ? 300 : proximity}} />
   </div>
 }
 
