@@ -6,7 +6,9 @@ import Joystick from '../svg/game-console.svg'
 class GamepadJoystik extends Component {
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      controllerIds: []
+    }
   }
 
   componentDidMount () {
@@ -136,8 +138,12 @@ class GamepadJoystik extends Component {
 
   render () {
     const hasJoystick = this.state.controllerIds && this.state.controllerIds.length
-    return <div>
-      {hasJoystick ? <span class='joystick-icon icon' title={(this.state.controllerIds.join(', ')) || 'no gamepad'}><Joystick /></span> : ''}
+    return <div className='status-panel'>
+      <span 
+        className={`joystick-icon icon ${hasJoystick ? '':'icon-inactive'}`} 
+        title={(this.state.controllerIds.join(', ')) || 'No gamepad connected'}>
+        <Joystick />
+      </span>
     </div>
   }
 }
@@ -145,7 +151,7 @@ class GamepadJoystik extends Component {
 
 const connectToPlatform = connect(
   ({platform: {offset}, camera}) => ({x: offset.x, y: offset.y, camera}),
-  (dispatch) => ({
+(dispatch) => ({
     onChange: ({x, y}) => dispatch({type: 'platformMove', value: {x, y}}),
     onChangeCamPosition: ({ x, y }) => dispatch({ type: 'camUpdate', value: { x, y } })
   })

@@ -49,6 +49,15 @@ export default new Config().merge({
           fallback: 'style-loader',
           use: 'css-loader'
         })
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}  
+          }
+        ]
       }
     ]
   },

@@ -7,10 +7,17 @@ import VideoPanel from './video-panel'
 import ProximityStatus from './proximity'
 import Room from './room'
 import '../style/main.css'
+import GithubLogo from '../svg/github.svg'
+import SpaceshipyardLogo from '../images/logo.jpeg'
 
 const App = (props) => {
   return <div className='wrapper'>
-    <header className='card'>Spaceshipyard / Mars Rover Contol Panel</header>
+    <header className='card'>
+      <img 
+        className='icon-with-text' 
+        src={SpaceshipyardLogo} />
+      Spaceshipyard / Mars Rover Contol Panel
+    </header>
     <div className='status card'>
       <div className='app-status'>
         <SocketStatus />
@@ -31,7 +38,11 @@ const App = (props) => {
       <br />
       <NippleJoystik />
     </div>
-    <footer className='card'><a href='https://github.com/spaceshipyard/'>https://github.com/spaceshipyard/</a></footer>
+    <footer className='card'>
+    <span className='icon-small icon-with-text'>
+    <GithubLogo width={30} height={30} />
+    </span>
+    <a href='https://github.com/spaceshipyard/'>https://github.com/spaceshipyard/</a></footer>
   </div>
 }
 
