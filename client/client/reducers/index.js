@@ -6,6 +6,7 @@ import platformStepperReducer from './platform-stepper'
 import videoReducer from './video'
 import roomReducer from './room'
 import proximityReducer from './proximity'
+import messagesReducer from './messages'
 
 const rootReducer = combineReducers({
   camera: cameraReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   platformStepper: platformStepperReducer,
   video: videoReducer,
   room: roomReducer,
-  proximity: proximityReducer
+  proximity: proximityReducer,
+  messages: messagesReducer
 })
 
 export default rootReducer

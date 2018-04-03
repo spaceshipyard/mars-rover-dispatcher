@@ -3,6 +3,8 @@ import PlatformJoystik from './platform-joystick'
 import GamepadJoystik from './gamepad-joystick'
 import NippleJoystik from './nipple-joystick'
 import SocketStatus from './socket-status'
+import SocketErrors from './socket-errors'
+import SocketInfo from './socket-info'
 import VideoPanel from './video-panel'
 import ProximityStatus from './proximity'
 import Room from './room'
@@ -14,6 +16,7 @@ const App = (props) => {
   return <div className='wrapper'>
     <header className='card'>
       <img 
+        height={100}
         className='icon-with-text' 
         src={SpaceshipyardLogo} />
       Spaceshipyard / Mars Rover Contol Panel
@@ -26,6 +29,11 @@ const App = (props) => {
       <br />
       <div className='sensors'>
         <ProximityStatus />
+      </div>
+      <br />
+      <div className='messages'>
+        <SocketErrors />
+        <SocketInfo />
       </div>
     </div>
     <div className='control card'>

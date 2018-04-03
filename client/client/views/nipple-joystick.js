@@ -38,8 +38,11 @@ class NippleJoystik extends PureComponent {
   }
 
   render () {
-    return <div className='nipple-joystick-container'>
-      <div ref={(node) => (this.joystick = node)} id='nipple-joystick' />
+    return <div>
+      <span>Touch Platform Joystick</span>
+      <div className='nipple-joystick-container'>
+        <div ref={(node) => (this.joystick = node)} id='nipple-joystick' />
+      </div>
     </div>
   }
 };
