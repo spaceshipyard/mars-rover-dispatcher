@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 const SocketInfo = ({messages}) => (
   <div className='status-panel'>
     <div className='socket-info'>
-    recieved data:
+    Recieved data:
       <div className='readData'>
         {messages.data.map(message => <div>[ {message.time} ] [ {message.cmd} ] [ {message.params.type} ] {JSON.stringify(message.params.data)}</div>)}
       </div>
-    sent data:
+    Sent data:
       <div className='writeData'>
         {messages.commands.map(message => <div>[ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)}</div>)}
       </div>

@@ -60,12 +60,7 @@ html {
 }
 
 .socket-info {
-    top: 101px;
-    left: 10px;
-    font-size: 10px;
-    background: lightcyan;
-    padding: 10px;
-    border-radius: 10px;
+    width: 100%;
 }
 
 .wrapper {
@@ -317,10 +312,10 @@ background: #00c4c6;
     display: block;
     overflow-y: scroll;
     width: 100%;
+    font-size: 10px;
 }
 
 .errorData {
-    font-size: 10px;
     background: lightcoral;
 }
 
