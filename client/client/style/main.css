@@ -316,10 +316,10 @@ background: #00c4c6;
     height: 143px;
     display: block;
     overflow-y: scroll;
+    width: 100%;
 }
 
 .errorData {
-    width: 100%;
     font-size: 10px;
     background: lightcoral;
 }

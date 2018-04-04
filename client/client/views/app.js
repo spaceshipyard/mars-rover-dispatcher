@@ -15,9 +15,9 @@ import SpaceshipyardLogo from '../images/logo.jpeg'
 const App = (props) => {
   return <div className='wrapper'>
     <header className='card'>
-      <img 
+      <img
         height={100}
-        className='icon-with-text' 
+        className='icon-with-text'
         src={SpaceshipyardLogo} />
       Spaceshipyard / Mars Rover Contol Panel
     </header>
@@ -47,10 +47,10 @@ const App = (props) => {
       <NippleJoystik />
     </div>
     <footer className='card'>
-    <span className='icon-small icon-with-text'>
-    <GithubLogo width={30} height={30} />
-    </span>
-    <a href='https://github.com/spaceshipyard/'>https://github.com/spaceshipyard/</a></footer>
+      <span className='icon-small icon-with-text'>
+        <GithubLogo width={30} height={30} />
+      </span>
+      <a href='https://github.com/spaceshipyard/'>https://github.com/spaceshipyard/</a></footer>
   </div>
 }
 

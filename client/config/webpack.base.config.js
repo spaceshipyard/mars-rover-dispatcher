@@ -55,7 +55,7 @@ export default new Config().merge({
         use: [
           {
             loader: 'file-loader',
-            options: {}  
+            options: {}
           }
         ]
       }

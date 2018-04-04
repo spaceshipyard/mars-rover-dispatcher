@@ -139,8 +139,8 @@ class GamepadJoystik extends Component {
   render () {
     const hasJoystick = this.state.controllerIds && this.state.controllerIds.length
     return <div className='status-panel'>
-      <span 
-        className={`joystick-icon icon ${hasJoystick ? '':'icon-inactive'}`} 
+      <span
+        className={`joystick-icon icon ${hasJoystick ? '' : 'icon-inactive'}`}
         title={(this.state.controllerIds.join(', ')) || 'No gamepad connected'}>
         <Joystick />
       </span>
@@ -151,7 +151,7 @@ class GamepadJoystik extends Component {
 
 const connectToPlatform = connect(
   ({platform: {offset}, camera}) => ({x: offset.x, y: offset.y, camera}),
-(dispatch) => ({
+  (dispatch) => ({
     onChange: ({x, y}) => dispatch({type: 'platformMove', value: {x, y}}),
     onChangeCamPosition: ({ x, y }) => dispatch({ type: 'camUpdate', value: { x, y } })
   })
