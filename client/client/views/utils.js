@@ -13,12 +13,12 @@ export const directAngleToPosition = (angle) => {
       y = min
       break
     case 'left':
-      x = max
-      y = min
-      break
-    case 'right':
       x = min
       y = max
+      break
+    case 'right':
+      x = max
+      y = min
       break
     default:
       x = 0
