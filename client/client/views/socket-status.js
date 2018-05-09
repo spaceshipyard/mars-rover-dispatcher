@@ -1,11 +1,15 @@
 import { connect } from 'react-redux'
+import StatusOn from '../svg/robot.svg'
+import StatusOff from '../svg/robot-sleep.svg'
 
 const SocketStatus = ({ socket }) => {
-  const {connected, errors} = socket
-  return <div>
-        Socket Status - {connected ? 'connected' : 'disconnected'}
-    <div className='socket-error'> {errors.map(error => <div>{JSON.stringify(error)}</div>)} </div>
-  </div>
+  const {connected} = socket
+  return (
+    <div className='status-panel'>
+      <div className='status-icon icon'>
+        {connected ? <StatusOn /> : <StatusOff />}
+      </div>
+    </div>)
 }
 
 export default connect(

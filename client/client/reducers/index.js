@@ -1,17 +1,12 @@
 import { combineReducers } from 'redux'
 import { reducer as socketReducer } from './socket'
 import platformReducer from './paltform'
+import cameraReducer from './camera'
 import platformStepperReducer from './platform-stepper'
 import videoReducer from './video'
 import roomReducer from './room'
 import proximityReducer from './proximity'
-
-const cameraReducer = (state = { x: 0, y: 0 }, action) => {
-  if (action.type === 'camUpdate') {
-    state = action.value
-  }
-  return state
-}
+import messagesReducer from './messages'
 
 const rootReducer = combineReducers({
   camera: cameraReducer,
@@ -20,7 +15,8 @@ const rootReducer = combineReducers({
   platformStepper: platformStepperReducer,
   video: videoReducer,
   room: roomReducer,
-  proximity: proximityReducer
+  proximity: proximityReducer,
+  messages: messagesReducer
 })
 
 export default rootReducer

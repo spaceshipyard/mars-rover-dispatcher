@@ -22,6 +22,10 @@ export default new Config().merge({
         }
       },
       {
+        test: /\.svg$/,
+        loader: 'svg-react-loader'
+      },
+      {
         test: /\.js$/,
         exclude: [
           /node_modules/,
@@ -45,6 +49,15 @@ export default new Config().merge({
           fallback: 'style-loader',
           use: 'css-loader'
         })
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
       }
     ]
   },

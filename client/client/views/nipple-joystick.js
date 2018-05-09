@@ -11,13 +11,12 @@ class NippleJoystik extends PureComponent {
       zone: this.joystick,
       mode: 'static',
       color: 'cyan',
-      position: {top: '274px', left: '157px'}
+      position: {left: '50%', top: '50%'}
     }
 
     const manager = nipplejs.create(options)
 
     manager.on('start end', function (evt, data) {
-      console.log('stop all')
       onChange({ x: 0, y: 0 })
     }).on('move', function (evt, data) {
       let { direction } = data
@@ -31,7 +30,6 @@ class NippleJoystik extends PureComponent {
     }).on('dir:up plain:up dir:left plain:left dir:down ' +
         'plain:down dir:right plain:right',
     function (evt, data) {
-      console.log('stop all')
       onChange({ x: 0, y: 0 })
     }
     ).on('pressure', function (evt, data) {
@@ -41,7 +39,10 @@ class NippleJoystik extends PureComponent {
 
   render () {
     return <div>
-      <div ref={(node) => (this.joystick = node)} id='nipple-joystick' />
+      <span>Touch Platform Joystick</span>
+      <div className='nipple-joystick-container'>
+        <div ref={(node) => (this.joystick = node)} id='nipple-joystick' />
+      </div>
     </div>
   }
 };
