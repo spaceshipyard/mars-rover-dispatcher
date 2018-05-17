@@ -1,9 +1,10 @@
 import io from 'socket.io-client'
 import {eventChannel} from 'redux-saga'
 import {fork, take, call, put, cancel} from 'redux-saga/effects'
+import config from './config'
 
 function connect () {
-  const socket = io(':8080')
+  const socket = io(config.serverHost)
   return socket
 }
 

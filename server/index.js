@@ -5,7 +5,7 @@ const app = express()
 const path = require('path')
 
 const host = process.env.host || '127.0.0.1'
-const port = process.env.port || 8080
+const port = process.env.port || 80
 
 const http = require('http')
 const server = http.createServer(app)
