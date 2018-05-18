@@ -13,7 +13,6 @@ it has a web client based on webpack and react/redux/redux-sags with joysticks t
 
 
 # How to Start Client (Web Client for pilots)
-copy ./client/client/config.default.js to ./client/client/config.js, add serverHost if needed
 1. open `./client`
 1. `npm i`
 1. `npm run build:prod` , it starts serving client static files on `0.0.0.0:80`
