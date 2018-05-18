@@ -1,3 +1,3 @@
 export default {
-	serverHost: ':8080'
+  serverHost: ':8080'
 }

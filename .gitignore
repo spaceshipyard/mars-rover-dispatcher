@@ -65,3 +65,5 @@ typings/
 # compiled files
 client/public/index.html
 client/public/bundle*
+client/config/config.js
+runall.sh

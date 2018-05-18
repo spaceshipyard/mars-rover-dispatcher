@@ -1,5 +1,6 @@
 import express from 'express'
 import path from 'path'
+import fs from 'fs'
 
 const PORT = process.env.portClient || 8082
 const PUBLIC_PATH = path.join(__dirname, '/public')
@@ -8,6 +9,16 @@ const app = express()
 const isDevelopment = process.env.NODE_ENV === 'development'
 
 let server
+
+// copy standard config if not exist
+const pathConfig = path.join(__dirname, 'client', 'config.js')
+const pathDefaultConfig = path.join(__dirname, 'client', 'config.default.js')
+if (!fs.existsSync(pathConfig)) {
+  fs.createReadStream(pathDefaultConfig).pipe(fs.createWriteStream(pathConfig))
+  console.log(`client config copied from the default: ${pathDefaultConfig}-> ${pathConfig}`)
+} else {
+  console.log(`used client config: ${pathConfig}`)
+}
 
 if (isDevelopment) {
   const webpack = require('webpack')
