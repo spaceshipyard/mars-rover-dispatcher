@@ -92,10 +92,10 @@ class GamepadJoystik extends Component {
         currCamValues.x = currCamValues.x < 0 ? 0 : currCamValues.x
 
         currCamValues.y = currCamValues.y || isNaN(currCamValues.x) > 180 ? 180 : currCamValues.y
-        currCamValues.y = currCamValues.y || isNaN(currCamValues.y) < 0 ? 0 : currCamValues.y    
+        currCamValues.y = currCamValues.y || isNaN(currCamValues.y) < 0 ? 0 : currCamValues.y
 
-        if (!(currCamValues.x === prevCamera.x && currCamValues.y === prevCamera.y) 
-        && !(isNaN(currCamValues.x) || isNaN(currCamValues.y))) {
+        if (!(currCamValues.x === prevCamera.x && currCamValues.y === prevCamera.y) &&
+        !(isNaN(currCamValues.x) || isNaN(currCamValues.y))) {
           this.props.onChangeCamPosition(currCamValues)
         }
       }
