@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import classNames from 'classNames'
 
 const SocketInfo = ({messages}) => (
   <div className='status-panel'>
@@ -9,7 +10,12 @@ const SocketInfo = ({messages}) => (
       </div>
     Sent data:
       <div className='writeData'>
-        {messages.commands.map(message => <div>[ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)}</div>)}
+        {messages.commands.map(message => {
+          return <div key={message.localId + '-' + message.boardcasted} className={classNames({
+            'messageItem': !message.boardcasted,
+            'messageItem-boardcasted': message.boardcasted})}>
+                [ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)} </div>
+        })}
       </div>
     </div>
   </div>

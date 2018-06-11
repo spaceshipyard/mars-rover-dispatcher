@@ -20,6 +20,7 @@ function subscribe (socket) {
     bindToSocket('reconnect_error')
     bindToSocket('disconnect')
     bindToSocket('message')
+    bindToSocket('msg:broadcasted')
     bindToSocket('welcome')
     bindToSocket('join')
     bindToSocket('memberJoined')

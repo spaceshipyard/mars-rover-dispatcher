@@ -1,4 +1,7 @@
+import _ from 'lodash'
+
 const MAX_MESSAGES = 20
+let msgIdCounter = 0
 
 function formatTime (date) {
   var hours = date.getHours()
@@ -18,7 +21,17 @@ const messagesReducer = (state = {data: [], commands: []}, action) => {
     return state
   }
 
+  if (action.type === 'msg:broadcasted') {
+    const originalMsg = _.find(state.commands, { 'localId': params.localId })
+    if (originalMsg) {
+      originalMsg.boardcasted = true
+      return { ...state, commands: [...state.commands] }
+    }
+    return state
+  }
+
   params.time = formatTime(new Date())
+  params.localId = msgIdCounter++
 
   if (params.cmd.includes('.data')) {
     return { data: getLastMessages([...state.data, params]), commands: [...state.commands] }

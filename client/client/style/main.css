@@ -326,3 +326,11 @@ background: #00c4c6;
 .writeData {
     background: lightgreen;
 }
+
+.messageItem {
+    color: green;
+}
+
+.messageItem-boardcasted {
+    color: inherit;
+}
