@@ -9,8 +9,10 @@ const port = process.env.port || 8080
 
 const http = require('http')
 const server = http.createServer(app)
-const io = require('socket.io')(3000, {
-  pingInterval: 100,
+const io = require('socket.io')(server)
+
+io.attach(server, {
+  pingInterval: 500,
   pingTimeout: 5000
 })
 
