@@ -5,6 +5,9 @@ import config from './config'
 
 function connect () {
   const socket = io(config.serverHost)
+  socket.on('connect', (client) => {
+    console.log('new connection: transport:', socket.io.engine.transport.name,  socket.io.engine.transport);
+  });
   return socket
 }
 
