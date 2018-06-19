@@ -11,7 +11,7 @@ const http = require('http')
 const server = http.createServer(app)
 const io = require('socket.io')(3000, {
   pingInterval: 100,
-  pingTimeout: 5000,
+  pingTimeout: 5000
 })
 
 configureStatic()
