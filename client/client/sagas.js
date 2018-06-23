@@ -4,7 +4,7 @@ import {fork, take, call, put, cancel} from 'redux-saga/effects'
 import config from './config'
 
 function connect () {
-  const socket = io(config.serverHost)
+  const socket = io(config.serverHost, { rejectUnauthorized: false })
   socket.on('connect', (client) => {
     setInterval(
       () => console.log('transport:', socket.io.engine.transport.name), 5000)

@@ -3,13 +3,25 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+const fs = require('fs')
 
 const host = process.env.host || '127.0.0.1'
 const port = process.env.port || 8080
 
-const http = require('http')
-const server = http.createServer(app)
-const io = require('socket.io')(server)
+const privateKeyPath = process.env.CERT_PRIVATE_KEY || './etc/localhost-cert/localhost.server.key'
+const publicKeyPath = process.env.CERT_PUBLIC_KEY || './etc/localhost-cert/localhost.server.crt'
+
+const privateKey = fs.readFileSync(privateKeyPath).toString()
+const certificate = fs.readFileSync(publicKeyPath).toString()
+
+const options = {
+  key: privateKey,
+  cert: certificate
+}
+
+const https = require('https')
+const server = https.createServer(app)
+const io = require('socket.io')(options, server)
 
 configureStatic()
 configureSocket()
@@ -69,13 +81,13 @@ function configureSocket () {
     socket.join(defaultRoomName, function () {
       currentRoomName = defaultRoomName
       const rooms = Object.keys(socket.rooms).filter(item => item !== socket.id)
-      socket.emit('welcome', { currRooms: rooms })
+      socket.emit('welcome', {currRooms: rooms})
     })
 
     socket.on('join', ({roomName}) => {
       socket.leave(currentRoomName, () => {
         console.log('leave', currentRoomName, socket.id)
-        socket.emit('leave', { roomName: currentRoomName })
+        socket.emit('leave', {roomName: currentRoomName})
         socket.join(roomName, () => {
           currentRoomName = roomName
           socket.to(roomName).emit('memberJoined', {clientId: socket.id})
