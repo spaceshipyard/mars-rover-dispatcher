@@ -20,8 +20,8 @@ const options = {
 }
 
 const https = require('https')
-const server = https.createServer(app)
-const io = require('socket.io')(options, server)
+const server = https.createServer(options, app)
+const io = require('socket.io')(server)
 
 configureStatic()
 configureSocket()
