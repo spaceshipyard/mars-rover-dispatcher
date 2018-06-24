@@ -3,12 +3,11 @@ import path from 'path'
 import fs from 'fs'
 
 const PORT = process.env.portClient || 8082
+const HOST = process.env.host || '0.0.0.0'
 const PUBLIC_PATH = path.join(__dirname, '/public')
 const app = express()
 
 const isDevelopment = process.env.NODE_ENV === 'development'
-
-let server
 
 // copy standard config if not exist
 const pathConfig = path.join(__dirname, 'client', 'config.js')
@@ -35,22 +34,8 @@ if (isDevelopment) {
   app.use(express.static(PUBLIC_PATH))
 }
 
-// fixme copy past with socket server and UI
-const shutDownServer = () => {
-  process.nextTick(() => {
-    server.close()
-    process.exit(0)
-  })
-}
-app.get('/shutdown', function (req, res) {
-  res.send('ok')
-  shutDownServer()
-})
+require('./../etc/utils/server')({ host:HOST, port: PORT }, app)
 
 app.all('*', function (req, res) {
   res.sendFile(path.resolve(PUBLIC_PATH, 'index.html'))
-})
-
-server = app.listen(PORT, process.env.host || '0.0.0.0', function () {
-  console.log('Listening on port ' + PORT + '...')
 })
