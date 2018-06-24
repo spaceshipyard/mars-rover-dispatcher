@@ -3,51 +3,20 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const fs = require('fs')
 
 const host = process.env.host || '127.0.0.1'
 const port = process.env.port || 8080
 
-const privateKeyPath = process.env.CERT_PRIVATE_KEY || './etc/localhost-cert/localhost.server.key'
-const publicKeyPath = process.env.CERT_PUBLIC_KEY || './etc/localhost-cert/localhost.server.crt'
-
-const privateKey = fs.readFileSync(privateKeyPath).toString()
-const certificate = fs.readFileSync(publicKeyPath).toString()
-
-const options = {
-  key: privateKey,
-  cert: certificate
-}
-
-const https = require('https')
-const server = https.createServer(options, app)
+const server = require('./../etc/utils/server')({host, port}, app)
 const io = require('socket.io')(server)
 
 configureStatic()
 configureSocket()
 
-console.log('listen', {host, port})
-
-const serverInstance = server.listen(port, host)
-
 function configureStatic () {
   app.use('/socket.io/socket.io.js', express.static(path.resolve(__dirname, '../node_modules/socket.io-client/socket.io.js')))
   app.use('/', express.static('static'))
 }
-
-// fixme copy past with socket server and UI
-const shutDownServer = () => {
-  process.nextTick(() => {
-    console.log('stop server')
-    serverInstance.close()
-    io.close()
-    process.exit(0)
-  })
-}
-app.get('/shutdown', function (req, res) {
-  res.send('ok')
-  shutDownServer()
-})
 
 const defaultRoomName = 'lobby'
 
