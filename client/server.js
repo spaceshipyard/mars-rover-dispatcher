@@ -34,9 +34,8 @@ if (isDevelopment) {
   app.use(express.static(PUBLIC_PATH))
 }
 
+require('./../etc/utils/server')({ host:HOST, port: PORT }, app)
 
 app.all('*', function (req, res) {
   res.sendFile(path.resolve(PUBLIC_PATH, 'index.html'))
 })
-
-require('./../etc/utils/server')({ host:HOST, port: PORT }, app)
