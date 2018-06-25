@@ -65,6 +65,5 @@ typings/
 # compiled files
 client/public/index.html
 client/public/bundle*
-client/public/styles.css
 client/client/config.js
 runall.sh
