@@ -1,10 +1,12 @@
 import io from 'socket.io-client'
-import {eventChannel} from 'redux-saga'
-import {fork, take, call, put, cancel} from 'redux-saga/effects'
-import config from './config'
+import { eventChannel } from 'redux-saga'
+import { fork, take, call, put, cancel } from 'redux-saga/effects'
+
+/* global SERVER_HOST, SERVER_PORT */
+const serverUrl = `${SERVER_HOST || ''}${(SERVER_PORT && (':' + SERVER_PORT)) || ''}`
 
 function connect () {
-  const socket = io(config.serverHost, { rejectUnauthorized: false })
+  const socket = io(serverUrl, {rejectUnauthorized: false})
   socket.on('connect', (client) => {
     setInterval(
       () => console.log('transport:', socket.io.engine.transport.name), 5000)

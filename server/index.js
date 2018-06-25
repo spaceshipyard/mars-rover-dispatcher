@@ -2,10 +2,10 @@
 
 const express = require('express')
 const app = express()
-const path = require('path')
 
 const host = process.env.host || '127.0.0.1'
-const port = process.env.port || 8080
+const port = process.env.serverPort || 443
+const staticFolderPath = process.env.staticContentFolder || './../client/public'
 
 const server = require('./../etc/utils/server')({host, port}, app)
 const io = require('socket.io')(server)
@@ -14,8 +14,7 @@ configureStatic()
 configureSocket()
 
 function configureStatic () {
-  app.use('/socket.io/socket.io.js', express.static(path.resolve(__dirname, '../node_modules/socket.io-client/socket.io.js')))
-  app.use('/', express.static('static'))
+  app.use('/', express.static(staticFolderPath))
 }
 
 const defaultRoomName = 'lobby'
