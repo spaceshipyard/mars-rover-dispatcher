@@ -10,12 +10,10 @@
 #
 ### END INIT INFO
 
-# Absolute path to this script. /home/user/bin/foo.sh
-SCRIPT=$(readlink -f $0)
 # Absolute path this script is in. /home/user/bin
-SCRIPTPATH=`dirname $SCRIPT`
-
-export basedir=SCRIPTPATH
+ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+echo $ABSOLUTE_PATH
+export basedir=`dirname $ABSOLUTE_PATH`
 export port=443
 
 if [[ $env = "dev" ]]
@@ -31,10 +29,10 @@ function install {
     if git diff-index --quiet HEAD --; then
         # No changes
         echo "git verification has been passed, no local changes"
-    else
+    #else
         # Changes
-        echo "local git changes are observed procedure is terminated"
-        exit 1
+        # echo "local git changes are observed procedure is terminated"
+        # exit 1
     fi
 
     git pull --rebase
