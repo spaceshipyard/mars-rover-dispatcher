@@ -12,8 +12,8 @@
 
 
 export basedir=`dirname $0`
-
 export port=443
+
 if [[ $env = "dev" ]]
 then
     export host=localhost
