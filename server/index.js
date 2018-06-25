@@ -10,6 +10,11 @@ const port = process.env.port || 8080
 const server = require('./../etc/utils/server')({host, port}, app)
 const io = require('socket.io')(server)
 
+io.attach(server, {
+  pingInterval: 500,
+  pingTimeout: 5000
+})
+
 configureStatic()
 configureSocket()
 
