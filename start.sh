@@ -10,6 +10,8 @@
 #
 ### END INIT INFO
 
+set -x
+
 # Absolute path this script is in. /home/user/bin
 ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 echo $ABSOLUTE_PATH
@@ -29,10 +31,10 @@ function install {
     if git diff-index --quiet HEAD --; then
         # No changes
         echo "git verification has been passed, no local changes"
-    #else
+    else
         # Changes
-        # echo "local git changes are observed procedure is terminated"
-        # exit 1
+        echo "local git changes are observed procedure is terminated"
+        exit 1
     fi
 
     git pull --rebase
@@ -42,7 +44,7 @@ function install {
 
     cd ${basedir}/client
     npm i
-    npm run build:prod &
+    npm run build:prod
 
     cd ${basedir}
 }
