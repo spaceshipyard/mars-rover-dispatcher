@@ -66,6 +66,10 @@ export default new Config().merge({
     new webpack.ProvidePlugin({
       'React': 'react'
     }),
+    new webpack.DefinePlugin({
+      'SERVER_PORT': process.env.serverPort || 443,
+      'SERVER_HOST': process.env.serverHost || undefined
+    }),
     new HtmlWebpackPlugin({
       template: './client/index.html',
       inject: 'body'

@@ -63,7 +63,5 @@ typings/
 .vscode
 
 # compiled files
-client/public/index.html
-client/public/bundle*
-client/client/config.js
+client/public/**/*.*
 runall.sh
