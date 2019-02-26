@@ -1,6 +1,5 @@
 import express from 'express'
 import path from 'path'
-import fs from 'fs'
 
 const PORT = process.env.portClient || 8082
 const HOST = process.env.host || '0.0.0.0'
@@ -24,7 +23,7 @@ if (isDevelopment) {
   app.use(express.static(PUBLIC_PATH))
 }
 
-require('./../etc/utils/server')({ host:HOST, port: PORT }, app)
+require('./../etc/utils/server')({ host: HOST, port: PORT }, app)
 
 app.all('*', function (req, res) {
   res.sendFile(path.resolve(PUBLIC_PATH, 'index.html'))
