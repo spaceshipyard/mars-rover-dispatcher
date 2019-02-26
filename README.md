@@ -16,10 +16,10 @@ And [Arduino Bridge](https://github.com/spaceshipyard/mars-rover-node-bridge) on
 # How To start Dispatcher/server 
 1. `cd server` 
 1. `npm i`
-1. `npm run start` 
+1. `npm start` 
 
 # How to start Dispatcher/client (separate console)
 1. `cd client`
 1. `npm i`
-1. `npm run build:prod`
+1. `npm start`
 1. open `https://localhost:8082`
