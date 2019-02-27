@@ -1,18 +1,42 @@
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
-const CameraJoystik = ({ onChange, x, y }) => {
-  const getValue = (event) => event.target.value
+const MIN = 0
+const MAX = 180
+const STEP = 5
+
+const incByStepUtilMax = (val) => Math.min(val + STEP, MAX)
+const decByStepUntilMin = (val) => Math.max(val - STEP, MIN)
+const eventToValue = (event) => +event.target.value
+
+const CameraJoystik = ({ onChange, currOffset }) => {
+  const { x, y } = currOffset
+  const onPartialInput = (newPartialOffset) => {
+    const newOffset = { ...currOffset, ...newPartialOffset }
+    !_.isEqual(currOffset, newOffset) && onChange(newOffset)
+  }
+
   return <div>
     <span>Camera Joystick</span>
     <div>
-      <input type='range' min='0' max='180' step='1' value={x} onChange={(e) => onChange({ y, x: getValue(e) })} />
-      <input type='range' min='0' max='180' step='1' value={y} onChange={(e) => onChange({ x, y: getValue(e) })} />
+      <div className='camera-controls'>
+        <button onClick={() => onPartialInput({ x: decByStepUntilMin(x) })}>⬅</button>
+        <input type='range' min={MIN} max={MAX} step={STEP} value={x}
+          onChange={(e) => onPartialInput({ x: eventToValue(e) })} />
+        <button onClick={() => onPartialInput({ x: incByStepUtilMax(x) })}>➡</button>
+      </div>
+      <div className='camera-controls'>
+        <button onClick={() => onPartialInput({ y: decByStepUntilMin(y) })}>⬅</button>
+        <input type='range' min={MIN} max={MAX} step={STEP} value={y}
+          onChange={(e) => onPartialInput({ y: eventToValue(e) })} />
+        <button onClick={() => onPartialInput({ y: incByStepUtilMax(y) })}>➡</button>
+      </div>
     </div>
   </div>
 }
 
 const connectToCammera = connect(
-  ({ camera }) => ({ x: camera.x, y: camera.y }),
+  ({ camera: { offset: { x, y } } }) => ({ currOffset: { x, y } }),
   (dispatch) => ({ onChange: ({ x, y }) => dispatch({ type: 'camUpdate', value: { x, y } }) }))
 
 export default connectToCammera(CameraJoystik)
