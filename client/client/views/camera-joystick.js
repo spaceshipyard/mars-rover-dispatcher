@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import { getEventTargetValueAsNum as eventToValue } from './utils'
 
 const MIN = 0
 const MAX = 180
@@ -7,7 +8,6 @@ const STEP = 5
 
 const incByStepUntilMax = (val) => Math.min(val + STEP, MAX)
 const decByStepUntilMin = (val) => Math.max(val - STEP, MIN)
-const eventToValue = (event) => +event.target.value
 
 const CameraJoystik = ({ onChange, offset }) => {
   const { x, y } = offset
