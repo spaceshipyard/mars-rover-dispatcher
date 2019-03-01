@@ -1,12 +1,14 @@
 import { connect } from 'react-redux'
-import { getEventTargetValueAsNum as eventToValue } from './utils'
+import OffsetAdjuster from '../components/offset-adjuster'
 
-const PlatformMovementFactor = ({ onChange, factor:{ x, y } }) => {
+const PlatformMovementFactor = ({ onChange, factor }) => {
+  const { x, y } = factor
+  const formatFactor = v => `${(v * 100).toFixed(1)}%`
   return <div>
-    <span>Platform Movement Factor: [ {x * 100}% | {y * 100}% ]</span>
+    <span>Platform Movement</span>
     <div>
-      <input type='range' min='-1' max='1' step='0.1' value={x} onChange={(e) => onChange({ y, x: eventToValue(e) })} />
-      <input type='range' min='-1' max='1' step='0.1' value={y} onChange={(e) => onChange({ x, y: eventToValue(e) })} />
+      <span>[ {formatFactor(x)} | {formatFactor(y)} ]</span>
+      <OffsetAdjuster min={-1} max={1} step={0.001} offset={factor} onChange={onChange} />
     </div>
   </div>
 }
