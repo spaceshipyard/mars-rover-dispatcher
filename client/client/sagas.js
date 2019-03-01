@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import { eventChannel } from 'redux-saga'
-import { fork, take, call, put, cancel } from 'redux-saga/effects'
+import { fork, take, call, put, cancel, select } from 'redux-saga/effects'
 
 /* global SERVER_HOST, SERVER_PORT */
 const serverUrl = `${SERVER_HOST || ''}${(SERVER_PORT && (':' + SERVER_PORT)) || ''}`
@@ -57,9 +57,9 @@ function * camUpdate () {
 
 function * platformMove () { // fixme copy past from cam update
   while (true) {
-    const {value} = yield take('platformMove')
-
-    const msg = {cmd: 'direction', params: {offset: value}}
+    const {value: {x: mx, y: my}} = yield take('platformMove')
+    const {x: fx, y: fy} = yield select((state) => state.platform.factor)
+    const msg = {cmd: 'direction', params: {offset: { x: mx * fx, y: my * fy }}}
 
     yield put({type: 'sendMessage', params: msg})
   }

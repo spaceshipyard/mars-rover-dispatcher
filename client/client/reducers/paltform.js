@@ -7,4 +7,11 @@ const offsetReducer = (state = { x: 0, y: 0 }, action) => {
   return state
 }
 
-export default combineReducers({ offset: offsetReducer })
+const factorReducer = (state = { x: 1, y: 1 }, action) => {
+  if (action.type === 'platformMovementFactor') {
+    state = action.value
+  }
+  return state
+}
+
+export default combineReducers({ offset: offsetReducer, factor: factorReducer })

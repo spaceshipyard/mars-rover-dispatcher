@@ -1,5 +1,5 @@
 import CameraJoystik from './camera-joystick'
-import PlatformJoystik from './platform-joystick'
+import PlatformMovementFactor from './platform-movement-factor'
 import GamepadJoystik from './gamepad-joystick'
 import NippleJoystik from './nipple-joystick'
 import SocketStatus from './socket-status'
@@ -42,7 +42,7 @@ const App = (props) => {
       <br />
       <CameraJoystik />
       <br />
-      <PlatformJoystik />
+      <PlatformMovementFactor />
       <br />
       <NippleJoystik />
     </div>

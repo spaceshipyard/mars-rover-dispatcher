@@ -1,6 +1,8 @@
 const max = 2
 const min = -2
 
+export const getEventTargetValueAsNum = (event) => +event.target.value
+
 export const directAngleToPosition = (angle) => {
   let x, y
   switch (angle) {
