@@ -19,7 +19,7 @@ io.attach(server, {
 configureStatic()
 configureSocket()
 
-console.log('listen', {host, port})
+console.log('listen', { host, port })
 
 const serverInstance = server.listen(port, host)
 
@@ -77,15 +77,15 @@ function configureSocket () {
       socket.emit('welcome', { currRooms: rooms })
     })
 
-    socket.on('join', ({roomName}) => {
+    socket.on('join', ({ roomName }) => {
       socket.leave(currentRoomName, () => {
         console.log('leave', currentRoomName, socket.id)
         socket.emit('leave', { roomName: currentRoomName })
         socket.join(roomName, () => {
           currentRoomName = roomName
-          socket.to(roomName).emit('memberJoined', {clientId: socket.id})
+          socket.to(roomName).emit('memberJoined', { clientId: socket.id })
           console.log('join', roomName, socket.id)
-          socket.emit('join', {roomName})
+          socket.emit('join', { roomName })
         })
       })
     })

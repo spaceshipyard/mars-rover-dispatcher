@@ -8,9 +8,9 @@ const ProximityStatusItem = ({ name, distance: proximity }) => {
   </div>
 }
 
-const ProximityStatus = ({proximity}) => {
+const ProximityStatus = ({ proximity }) => {
   return <div>
-    {proximity.map(({name, distance}) => <ProximityStatusItem name={name} distance={distance} />)}
+    {proximity.map(({ name, distance }) => <ProximityStatusItem name={name} distance={distance} />)}
   </div>
 }
 

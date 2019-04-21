@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-const SocketInfo = ({messages}) => (
+const SocketInfo = ({ messages }) => (
   <div className='status-panel'>
     <div className='socket-info'>
     Recieved data:
@@ -16,5 +16,5 @@ const SocketInfo = ({messages}) => (
 )
 
 export default connect(
-  ({messages}) => ({messages}),
+  ({ messages }) => ({ messages }),
   (dispatch) => ({}))(SocketInfo)

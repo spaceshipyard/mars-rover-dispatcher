@@ -11,8 +11,8 @@ function formatTime (date) {
 
 const getLastMessages = arr => arr.slice(arr.length > MAX_MESSAGES ? arr.length - MAX_MESSAGES : 0)
 
-const messagesReducer = (state = {data: [], commands: []}, action) => {
-  const {params} = action
+const messagesReducer = (state = { data: [], commands: [] }, action) => {
+  const { params } = action
 
   if (!params || !params.cmd) {
     return state
