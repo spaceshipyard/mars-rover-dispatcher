@@ -10,7 +10,17 @@ const ProximityStatusItem = ({ name, distance: proximity }) => {
 
 const ProximityStatus = ({proximity}) => {
   return <div>
+    Proximity Data:
     {proximity.map(({name, distance}) => <ProximityStatusItem name={name} distance={distance} />)}
+  </div>
+}
+
+const MotorEncoder = ({motorEncoder}) => {
+  return <div>
+    Motor Encoder:
+    <ul>
+      {motorEncoder.map(({name, value}) => <li><span>{name}:</span> <span>{value}</span></li>)}
+    </ul>
   </div>
 }
 
