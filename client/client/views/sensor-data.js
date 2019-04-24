@@ -24,7 +24,14 @@ const MotorEncoder = ({motorEncoder}) => {
   </div>
 }
 
-const connectToPlatform = connect(
-  ({ proximity }) => (proximity))
+const SensorData = ({ proximity, motorEncoder }) => {
+  return <ul>
+    {proximity && <li><ProximityStatus proximity={proximity} /></li>}
+    {motorEncoder && <li><MotorEncoder motorEncoder={motorEncoder} /></li>}
+  </ul>
+}
 
-export default connectToPlatform(ProximityStatus)
+const connectToPlatform = connect(
+  ({ sensorData }) => sensorData)
+
+export default connectToPlatform(SensorData)
