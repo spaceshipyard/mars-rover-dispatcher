@@ -6,7 +6,7 @@ import SocketStatus from './socket-status'
 import SocketErrors from './socket-errors'
 import SocketInfo from './socket-info'
 import VideoPanel from './video-panel'
-import ProximityStatus from './proximity'
+import SensorData from './sensor-data'
 import Room from './room'
 import '../style/main.css'
 import GithubLogo from '../svg/github.svg'
@@ -28,7 +28,7 @@ const App = (props) => {
       </div>
       <br />
       <div className='sensors'>
-        <ProximityStatus />
+        <SensorData />
       </div>
       <br />
       <div className='messages'>

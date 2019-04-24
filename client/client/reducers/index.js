@@ -5,7 +5,7 @@ import cameraReducer from './camera'
 import platformStepperReducer from './platform-stepper'
 import videoReducer from './video'
 import roomReducer from './room'
-import proximityReducer from './proximity'
+import sensorDataReducer from './sensor-data'
 import messagesReducer from './messages'
 
 const rootReducer = combineReducers({
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   platformStepper: platformStepperReducer,
   video: videoReducer,
   room: roomReducer,
-  proximity: proximityReducer,
+  sensorData: sensorDataReducer,
   messages: messagesReducer
 })
 
