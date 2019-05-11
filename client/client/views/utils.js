@@ -27,5 +27,5 @@ export const directAngleToPosition = (angle) => {
       y = 0
   }
 
-  return {x, y}
+  return { x, y }
 }

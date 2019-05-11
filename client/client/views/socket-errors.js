@@ -5,7 +5,7 @@ const MAX_ERRORS = 10
 const getLastErrors = arr => arr.slice(arr.length > MAX_ERRORS ? arr.length - MAX_ERRORS : 0)
 
 const SocketErrors = ({ socket }) => {
-  const {connected, errors} = socket
+  const { connected, errors } = socket
   return (
     <div className='status-panel'>
       {connected ? '' : <div className='errorData'>{getLastErrors(errors)
@@ -15,5 +15,5 @@ const SocketErrors = ({ socket }) => {
 }
 
 export default connect(
-  ({socket}) => ({socket}),
+  ({ socket }) => ({ socket }),
   (dispatch) => ({}))(SocketErrors)

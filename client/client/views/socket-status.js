@@ -3,7 +3,7 @@ import StatusOn from '../svg/robot.svg'
 import StatusOff from '../svg/robot-sleep.svg'
 
 const SocketStatus = ({ socket }) => {
-  const {connected} = socket
+  const { connected } = socket
   return (
     <div className='status-panel'>
       <div className='status-icon icon'>
@@ -13,5 +13,5 @@ const SocketStatus = ({ socket }) => {
 }
 
 export default connect(
-  ({socket}) => ({socket}),
+  ({ socket }) => ({ socket }),
   (dispatch) => ({}))(SocketStatus)

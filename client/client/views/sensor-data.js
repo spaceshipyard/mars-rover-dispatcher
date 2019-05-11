@@ -8,26 +8,16 @@ const ProximityStatusItem = ({ name, distance: proximity }) => {
   </div>
 }
 
-const ProximityStatus = ({proximity}) => {
+const ProximityStatus = ({ proximity }) => {
   return <div>
     Proximity Data:
-    {proximity.map(({name, distance}) => <ProximityStatusItem name={name} distance={distance} />)}
-  </div>
-}
-
-const I2cData = ({i2cData}) => {
-  return <div>
-   i2c Data:
-    <ul>
-      {i2cData.map(({name, value}) => <li><span>{name}:</span> <span>{value}</span></li>)}
-    </ul>
+    {proximity.map(({ name, distance }) => <ProximityStatusItem name={name} distance={distance} />)}
   </div>
 }
 
 const SensorData = ({ proximity, i2cData }) => {
   return <ul>
     {proximity && <li><ProximityStatus proximity={proximity} /></li>}
-    {i2cData && <li><I2cData i2cData={i2cData} /></li>}
   </ul>
 }
 

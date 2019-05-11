@@ -15,7 +15,7 @@ const connectedReducer = (state = false, action) => {
 }
 
 const errorsReducer = (state = [], action) => {
-  const {type, params} = action
+  const { type, params } = action
   switch (type) {
     case 'reconnect_error':
     case 'error':

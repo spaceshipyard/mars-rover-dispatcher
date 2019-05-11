@@ -1,5 +1,5 @@
-import {connect} from 'react-redux'
-import {Component} from 'react'
+import { connect } from 'react-redux'
+import { Component } from 'react'
 import { directAngleToPosition } from './utils'
 import Joystick from '../svg/game-console.svg'
 
@@ -12,7 +12,7 @@ class GamepadJoystik extends Component {
   }
 
   componentDidMount () {
-    const {onChange} = this.props
+    const { onChange } = this.props
     let previousValues
 
     var haveEvents = 'ongamepadconnected' in window
@@ -75,8 +75,8 @@ class GamepadJoystik extends Component {
         }
 
         const prevCamera = this.props.camera
-        let currCamValues = {x: prevCamera.x + (parseFloat(controller.axes[2])),
-          y: prevCamera.y + -(parseFloat(controller.axes[3]))}
+        let currCamValues = { x: prevCamera.x + (parseFloat(controller.axes[2])),
+          y: prevCamera.y + -(parseFloat(controller.axes[3])) }
 
         if (controller.buttons[3].pressed) {
           currCamValues.x = 90
@@ -151,9 +151,9 @@ class GamepadJoystik extends Component {
 ;
 
 const connectToPlatform = connect(
-  ({platform: {offset}, camera}) => ({x: offset.x, y: offset.y, camera}),
+  ({ platform: { offset }, camera }) => ({ x: offset.x, y: offset.y, camera }),
   (dispatch) => ({
-    onChange: ({x, y}) => dispatch({type: 'platformMove', value: {x, y}}),
+    onChange: ({ x, y }) => dispatch({ type: 'platformMove', value: { x, y } }),
     onChangeCamPosition: ({ x, y }) => dispatch({ type: 'camUpdate', value: { x, y } })
   })
 )

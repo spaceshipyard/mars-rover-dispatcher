@@ -8,7 +8,7 @@ const VideoPanel = ({ participant, requestCall, onChange }) => {
 }
 
 const connectWrapper = connect(
-  ({ video: {participant} }) => ({ participant }),
+  ({ video: { participant } }) => ({ participant }),
   (dispatch) => ({
     requestCall: (participant) => dispatch({ type: 'requestVideoCall', participant }),
     onChange: (value) => dispatch({ type: 'videoParticipantUpdate', value })
