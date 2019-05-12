@@ -11,7 +11,7 @@ class NippleJoystik extends PureComponent {
       zone: this.joystick,
       mode: 'static',
       color: 'cyan',
-      position: {left: '50%', top: '50%'}
+      position: { left: '50%', top: '50%' }
     }
 
     const manager = nipplejs.create(options)

@@ -1,7 +1,7 @@
 import { getEventTargetValueAsNum as eventToValue } from '../../views/utils'
 import _ from 'lodash'
 
-export default ({min, max, step, offset, onChange}) => {
+export default ({ min, max, step, offset, onChange }) => {
   const incByStepUntilMax = (val) => Math.min(val + step, max)
   const decByStepUntilMin = (val) => Math.max(val - step, min)
 

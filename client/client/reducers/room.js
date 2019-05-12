@@ -1,6 +1,6 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
 
-const inLobbyReducer = (state = true, {type}) => {
+const inLobbyReducer = (state = true, { type }) => {
   switch (type) {
     case 'inLobby' :
       return true
@@ -22,4 +22,4 @@ const roomNameReducer = (state = '', action) => {
   }
 }
 
-export default combineReducers({inLobby: inLobbyReducer, roomName: roomNameReducer})
+export default combineReducers({ inLobby: inLobbyReducer, roomName: roomNameReducer })
