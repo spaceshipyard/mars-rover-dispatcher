@@ -10,7 +10,7 @@
 #
 ### END INIT INFO
 
-set -x
+#set -x
 
 # Absolute path this script is in. /home/user/bin
 ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
@@ -22,7 +22,7 @@ if [[ $env = "dev" ]]
 then
     export host=localhost
 else
-    export host=mars-rover.org
+    export host=mars-rover.online
     export CERT_PRIVATE_KEY=${basedir}/etc/mars-rover-cert/mars-rover.org.key
     export CERT_PUBLIC_KEY=${basedir}/etc/mars-rover-cert/mars-rover.org.crt
 fi
