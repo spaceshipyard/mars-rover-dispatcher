@@ -23,6 +23,7 @@ then
     export host=localhost
 else
     export host=mars-rover.online
+    export serverHost='"mars-rover.online"'
     export CERT_PRIVATE_KEY=${basedir}/etc/mars-rover-cert/mars-rover.org.key
     export CERT_PUBLIC_KEY=${basedir}/etc/mars-rover-cert/mars-rover.org.crt
 fi
@@ -42,10 +43,14 @@ function install {
     cd ${basedir}/server
     npm i
 
+    buildClient
+
+}
+
+function buildClient {
     cd ${basedir}/client
     npm i
     npm run build:prod
-
     cd ${basedir}
 }
 
@@ -75,8 +80,11 @@ case "$1" in
  install)
   install
  ;;
+ buildClient)
+  buildClient
+ ;;
  *)
-  echo "Usage: mars-rover-dispatcher {start|stop|restart|install}" >&2
+  echo "Usage: mars-rover-dispatcher {start|stop|restart|install|buildClient}" >&2
   exit 3
  ;;
 

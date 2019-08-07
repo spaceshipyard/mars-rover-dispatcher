@@ -13,18 +13,19 @@ class SocketInfo extends PureComponent {
       autoscrollEnabled: DEFAULT_SCROLL_ENABLED
     }
   }
-  componentDidMount () {
-    const { autoscrollEnabled } = this.state
 
-    if(autoscrollEnabled) {
+  componentDidMount () {
+    const {autoscrollEnabled} = this.state
+
+    if (autoscrollEnabled) {
       autoScrollInterval = setInterval(this.autoScroll, SCROLL_INTERVAL)
     }
   }
 
   toggleAutoscroll = () => {
-    const { autoscrollEnabled } = this.state
-    this.setState({ autoscrollEnabled: !autoscrollEnabled })
-    if(autoscrollEnabled && autoScrollInterval) {
+    const {autoscrollEnabled} = this.state
+    this.setState({autoscrollEnabled: !autoscrollEnabled})
+    if (autoscrollEnabled && autoScrollInterval) {
       clearInterval(autoScrollInterval)
     } else {
       autoScrollInterval = setInterval(this.autoScroll, SCROLL_INTERVAL)
@@ -34,31 +35,36 @@ class SocketInfo extends PureComponent {
   autoScroll = () => {
     const readData = document.querySelector('.readData')
     const writeData = document.querySelector('.writeData')
-    readData.scroll(0,readData.clientHeight)
-    writeData.scroll(0,writeData.clientHeight)
+    readData.scroll(0, readData.clientHeight)
+    writeData.scroll(0, writeData.clientHeight)
   }
 
   render () {
-    const { autoscrollEnabled } = this.state
-    const { messages } = this.props
+    const {autoscrollEnabled} = this.state
+    const {messages} = this.props
 
     return (<div className='status-panel'>
 
       <div className='socket-info'>
-      <div>
-        <label><input type='checkbox' onClick={this.toggleAutoscroll} checked={autoscrollEnabled} /> Auto-scroll</label>
-      </div>
-    Recieved data:
-        <div className='readData'>
-          {messages.data.map(message => <div>[ {message.time} ] [ {message.cmd} ] [ {message.params.type} ] {JSON.stringify(message.params)}</div>)}
+        <div>
+          <label>
+            <input type='checkbox' onClick={this.toggleAutoscroll}
+                   checked={autoscrollEnabled}/> Auto-scroll
+          </label>
         </div>
-    Sent data:
+        Recieved data:
+        <div className='readData'>
+          {messages.data.map(message => <div>[ {message.time} ] [ {message.cmd} ]
+            [ {message.params.type} ] {JSON.stringify(message.params)}</div>)}
+        </div>
+        Sent data:
         <div className='writeData'>
           {messages.commands.map(message => {
             return <div key={message.localId + '-' + message.boardcasted} className={classnames({
               'messageItem': !message.boardcasted,
-              'messageItem-boardcasted': message.boardcasted })}>
-                [ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)} </div>
+              'messageItem-boardcasted': message.boardcasted
+            })}>
+              [ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)} </div>
           })}
         </div>
       </div>
@@ -67,5 +73,5 @@ class SocketInfo extends PureComponent {
 }
 
 export default connect(
-  ({ messages }) => ({ messages }),
+  ({messages}) => ({messages}),
   (dispatch) => ({}))(SocketInfo)

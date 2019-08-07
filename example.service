@@ -1,0 +1,11 @@
+[Unit]
+Description=Job that runs the mars rover dispatcher
+
+[Service]
+Type=forking
+Environment=statedir=/root/mars-rover-dispatcher
+ExecStart=/bin/bash /root/mars-rover-dispatcher/example.start.sh start
+ExecStopPost=/bin/bash /root/mars-rover-dispatcher/example.start.sh stop
+
+[Install]
+WantedBy=multi-user.target
