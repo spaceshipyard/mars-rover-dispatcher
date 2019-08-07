@@ -13,8 +13,9 @@ class SocketInfo extends PureComponent {
       autoscrollEnabled: DEFAULT_SCROLL_ENABLED
     }
   }
+
   componentDidMount () {
-    const { autoscrollEnabled } = this.state
+    const {autoscrollEnabled} = this.state
 
     if (autoscrollEnabled) {
       autoScrollInterval = setInterval(this.autoScroll, SCROLL_INTERVAL)
@@ -39,8 +40,8 @@ class SocketInfo extends PureComponent {
   }
 
   render () {
-    const { autoscrollEnabled } = this.state
-    const { messages } = this.props
+    const {autoscrollEnabled} = this.state
+    const {messages} = this.props
 
     return (<div className='status-panel'>
 
@@ -50,15 +51,17 @@ class SocketInfo extends PureComponent {
         </div>
     Recieved data:
         <div className='readData'>
-          {messages.data.map(message => <div>[ {message.time} ] [ {message.cmd} ] [ {message.params.type} ] {JSON.stringify(message.params)}</div>)}
+          {messages.data.map(message => <div>[ {message.time} ] [ {message.cmd} ]
+            [ {message.params.type} ] {JSON.stringify(message.params)}</div>)}
         </div>
-    Sent data:
+        Sent data:
         <div className='writeData'>
           {messages.commands.map(message => {
             return <div key={message.localId + '-' + message.boardcasted} className={classnames({
               'messageItem': !message.boardcasted,
-              'messageItem-boardcasted': message.boardcasted })}>
-                [ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)} </div>
+              'messageItem-boardcasted': message.boardcasted
+            })}>
+              [ {message.time} ] [ {message.cmd} ] {JSON.stringify(message.params)} </div>
           })}
         </div>
       </div>
@@ -67,5 +70,5 @@ class SocketInfo extends PureComponent {
 }
 
 export default connect(
-  ({ messages }) => ({ messages }),
+  ({messages}) => ({messages}),
   (dispatch) => ({}))(SocketInfo)
