@@ -22,9 +22,9 @@ class SocketInfo extends PureComponent {
     }
   }
 
-  toggleAutoscroll = () => {
-    const {autoscrollEnabled} = this.state
-    this.setState({autoscrollEnabled: !autoscrollEnabled})
+  toggleAutoscroll () {
+    const { autoscrollEnabled } = this.state
+    this.setState({ autoscrollEnabled: !autoscrollEnabled })
     if (autoscrollEnabled && autoScrollInterval) {
       clearInterval(autoScrollInterval)
     } else {
@@ -32,7 +32,7 @@ class SocketInfo extends PureComponent {
     }
   }
 
-  autoScroll = () => {
+  autoScroll () {
     const readData = document.querySelector('.readData')
     const writeData = document.querySelector('.writeData')
     readData.scroll(0, readData.clientHeight)
@@ -47,12 +47,9 @@ class SocketInfo extends PureComponent {
 
       <div className='socket-info'>
         <div>
-          <label>
-            <input type='checkbox' onClick={this.toggleAutoscroll}
-                   checked={autoscrollEnabled}/> Auto-scroll
-          </label>
+          <label><input type='checkbox' onClick={this.toggleAutoscroll} checked={autoscrollEnabled} /> Auto-scroll</label>
         </div>
-        Recieved data:
+    Recieved data:
         <div className='readData'>
           {messages.data.map(message => <div>[ {message.time} ] [ {message.cmd} ]
             [ {message.params.type} ] {JSON.stringify(message.params)}</div>)}

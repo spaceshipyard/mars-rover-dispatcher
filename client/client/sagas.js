@@ -6,7 +6,7 @@ import { fork, take, call, put, cancel, select } from 'redux-saga/effects'
 const serverUrl = `${SERVER_HOST || ''}${(SERVER_PORT && (':' + SERVER_PORT)) || ''}`
 
 function connect () {
-  const socket = io(serverUrl, { rejectUnauthorized: false })
+  const socket = io(serverUrl, { secure: true, transports: ['websocket'] })
   socket.on('connect', (client) => {
     setInterval(
       () => console.log('transport:', socket.io.engine.transport.name), 5000)
